@@ -1,4 +1,4 @@
-import * as tmData from './tm-events-data.mjs'
+import * as tmData from '../data/tm-events-data.mjs'
 
 export async function getEventsByName(keyword, s, p) {
     if(!keyword) {
