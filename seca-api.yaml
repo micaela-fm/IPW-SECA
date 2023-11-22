@@ -134,7 +134,7 @@ paths:
       - Groups
       summary: get all groups of events
       description: You can get the list of groups of events
-      operationId: getGroups
+      operationId: getAllGroups
       security:
         - bearerAuth: []
       responses:
@@ -179,7 +179,7 @@ paths:
       tags:
       - Groups
       summary: Get a group by its id
-      operationId: getGroupById
+      operationId: getGroup
       security:
         - bearerAuth: []
       parameters:
