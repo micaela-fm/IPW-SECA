@@ -10,3 +10,4 @@ export async function getUserId(userToken) {
     if (!userToken) throw `Invalid user token`
     return secaData.getUserId(userToken)
 }
+

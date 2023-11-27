@@ -55,4 +55,3 @@ async function _getGroup(groupId, userId) {
     throw `Group with id ${groupId} does not belong to user ${userId}`
 }
 
-
