@@ -1,8 +1,23 @@
 {
+  "name": "seca-ipw-p1-leic2324i-ipw31n-g07",
+  "version": "1.0.0",
+  "description": "IPW_IP 2324 1 A2",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "",
+  "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "swagger-ui-express": "^5.0.0",
     "yaml": "^2.3.4"
+  },
+  "devDependencies": {
+    "mocha": "^10.2.0"
   }
 }
