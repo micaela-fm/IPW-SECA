@@ -1,5 +1,10 @@
 // implementation of the HTTP routes that make up the REST API of the web application
 
+// Dependencies
+import * as secaEventsServices from ".seca-events-services.mjs"
+import * as secaGroupsServices from "./services/seca-groups-services.js"
+import * as secaUsersServices from "./services/seca-users-services.js"
+
 // Events
 export const popularEvents = processRequest(getPopularEvents, false)
 export const searchEvents = processRequest(searchEvents, false)
@@ -16,119 +21,119 @@ export const createUser = processRequest(createUser, false)
 
 
 // Get the list of the most popular events
-async function getPopularEvents(request, response) {
-  const limit = request.query.limit
-  const page = request.query.page 
-  const result = await secaServices.getPopularEvents(limit, page)
+async function getPopularEvents(req, rsp) {
+  const limit = req.query.limit
+  const page = req.query.page 
+  const result = await secaEventsServices.getPopularEvents(limit, page)
   return result
 }
 
   // Search events by name
-  async function searchEvents(request, response) {
-      const eventName = request.params.name
-      const limit = request.query.limit
-      const page = request.query.page
-      const result = await secaServices.getEventsByName(eventName, limit, page)
+  async function searchEvents(req, rsp) {
+      const eventName = req.params.name
+      const limit = req.query.limit
+      const page = req.query.page
+      const result = await secaEventsServices.getEventsByName(eventName, limit, page)
       return result
   }
 
   // Create group providing its name and description
-  async function createGroup(request, response) {
+  async function createGroup(req, rsp) {
     const group = {
-      name: request.body.name,
-      description: request.body.description,
-      events: request.body.events,
+      name: req.body.name,
+      description: req.body.description,
+      events: req.body.events,
     }
 
-    const newGroup = await secaServices.createGroup(group, request.token)
+    const newGroup = await secaGroupsServices.createGroup(group, req.token)
 
     if (newGroup !== null) {
-      response.status(201)
+      rsp.status(201)
       return newGroup
     }
-    response.status(400)
+    rsp.status(400)
     return {
       message: "Error creating group."
     }
   }
 
   // Edit group by changing its name and description
-  async function editGroup(request, response) {
-    const groupId = request.params.id
-    const group = await secaServices.editGroup(groupId, request.body, request.token)
+  async function editGroup(req, rsp) {
+    const groupId = req.params.id
+    const group = await secaGroupsServices.editGroup(groupId, req.body, req.token)
     return group
   }
 
   // List all groups
-  async function listGroups(request, response) {
-    return secaServices.getAllGroups(request.token)
+  async function listGroups(req, rsp) {
+    return secaGroupsServices.getAllGroups(req.token)
   } 
 
   // Delete a group
-  async function deleteGroup(request, response) {
-    const group = await secaServices.deleteGroup(request.params.id, request.token)
+  async function deleteGroup(req, rsp) {
+    const group = await secaGroupsServices.deleteGroup(req.params.id, req.token)
     if (group !== null) {
-      response.status(200)
+      rsp.status(200)
       return group
     }
-    response.status(400)
+    rsp.status(400)
     return { message: "Error deleting group." }
   }
 
   // Get the details of a group
-  async function getGroupDetails(request, response) {
-    const groupId = request.params.id
-    return secaServices.getGroup(groupId, request.token)
+  async function getGroupDetails(req, rsp) {
+    const groupId = req.params.id
+    return secaGroupsServices.getGroup(groupId, req.token)
   }
 
   // Add a event to a group
   // verificar quando secaServices.addEventToGroup estiver terminada
-  async function addEvent(request, response) {
-    const event = await secaServices.addEventToGroup(request.params.id, request.params.eventId, request.token)
+  async function addEvent(req, rsp) {
+    const event = await secaGroupsServices.addEventToGroup(req.params.id, req.params.eventId, req.token)
     if (event !== null) {
-      response.status(201)
+      rsp.status(201)
       return event
     }
-    response.status(400)
+    rsp.status(400)
     return { message: "Error adding event to group." }
   }
 
   // Remove a event from a group
   // verificar quando secaServices.addEventFromGroup estiver terminada
-  async function removeEvent(request, response) {
-    const event = await secaServices.deleteEventFromGroup(request.params.id, request.params.eventId, request.token)
+  async function removeEvent(req, rsp) {
+    const event = await secaGroupsServices.deleteEventFromGroup(req.params.id, req.params.eventId, req.token)
     if (event !== null) {
-      response.status(200)
+      rsp.status(200)
       return event
     }
-    response.status(400)
+    rsp.status(400)
     return { message: "Error removing event from group." }
   }
 
   // Create new user, given its username
-  async function createUser(request, response) {
-    const requestedUser = { name: request.body.name }
-    const newUser = await secaServices.insertUser(requestedUser)
+  async function createUser(req, rsp) {
+    const requestedUser = { name: req.body.name }
+    const newUser = await secaUsersServices.insertUser(requestedUser)
 
     if (newUser !== null) {
-      response.status(201)
+      rsp.status(201)
       return newUser
     }
-    response.status(400)
+    rsp.status(400)
     return { message: "Error creating user." }
   }
 
 // Auxiliary function
 function processRequest(requestProcessor, requiresAuthentication) {
-  return function(request, response) {
+  return function(req, rsp) {
     if (requiresAuthentication) {
-      const token = getToken(request);
+      const token = getToken(req);
       if (!token) {
-        return response.status(401).json("Not authorized");
+        return rsp.status(401).json("Not authorized");
       }
-      request.token = token;
+      req.token = token;
     }
 
-    return requestProcessor(request, response);
+    return requestProcessor(req, rsp);
   };
 }
