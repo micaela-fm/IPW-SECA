@@ -1,36 +1,27 @@
 // implementation of the HTTP routes that make up the REST API of the web application
 
-import toHttpResponse from "./response-errors.js"
+// Events
+export const popularEvents = processRequest(getPopularEvents, false)
+export const searchEvents = processRequest(searchEvents, false)
+// Groups
+export const createGroup = processRequest(createGroup, true)
+export const editGroup = processRequest(editGroup, true)
+export const listGroups = processRequest(listGroups, true)
+export const deleteGroup = processRequest(deleteGroup, true)
+export const getGroupDetails = processRequest(getGroupDetails, true)
+export const addEvent = processRequest(addEvent, true)
+export const removeEvent = processRequest(removeEvent, true)
+// Users
+export const createUser = processRequest(createUser, false)
 
-export default function (secaServices) {
-  if (!secaServices) throw errors.INVALID_ARGUMENT("secaServices")
 
-  // http routes
-  return { 
-    // Events
-    popularEvents: handleRequest(getPopularEvents, false),
-    searchEvents: handleRequest(searchEvents, false),
-    // Groups
-    // For all group operations, a user token must be sent 
-    // in the Authorization header using a Bearer Token.
-    createGroup: handleRequest(createGroup, true),
-    editGroup: handleRequest(editGroup, true),
-    listsGroups: handleRequest(listGroups, true),
-    deleteGroup: handleRequest(deleteGroup, true),
-    getGroupDetails: handleRequest(getGroupDetails, true),
-    addEvent: handleRequest(addEvent, true),
-    removeEvent: handleRequest(removeEvent, true),
-    // Users
-    createUser: handleRequest(createUser, false)
-  }
-
-  // Get the list of the most popular events
-  async function getPopularEvents(request, response) {
-    const limit = request.query.limit
-    const page = request.query.page 
-    const result = await secaServices.getPopularEvents(limit, page)
-    return result
-  }
+// Get the list of the most popular events
+async function getPopularEvents(request, response) {
+  const limit = request.query.limit
+  const page = request.query.page 
+  const result = await secaServices.getPopularEvents(limit, page)
+  return result
+}
 
   // Search events by name
   async function searchEvents(request, response) {
@@ -57,7 +48,7 @@ export default function (secaServices) {
     }
     response.status(400)
     return {
-      message: "Unspecified error creating group."
+      message: "Error creating group."
     }
   }
 
@@ -81,7 +72,7 @@ export default function (secaServices) {
       return group
     }
     response.status(400)
-    return { message: "Unspecified error deleting group." }
+    return { message: "Error deleting group." }
   }
 
   // Get the details of a group
@@ -116,7 +107,7 @@ export default function (secaServices) {
 
   // Create new user, given its username
   async function createUser(request, response) {
-    const requestedUser = { name: request.name }
+    const requestedUser = { name: request.body.name }
     const newUser = await secaServices.insertUser(requestedUser)
 
     if (newUser !== null) {
@@ -127,26 +118,17 @@ export default function (secaServices) {
     return { message: "Error creating user." }
   }
 
-// Auxiliary functions
-function handleRequest(handler, requireAuthentication) {
-    return async function (request, response) {
-      if (requireAuthentication) {
-        const BEARER_STR = "Bearer "
-        const tokenHeader = request.get("Authorization")
-        if (!tokenHeader || !tokenHeader.startsWith(BEARER_STR) || tokenHeader.length <= BEARER_STR.length) {
-          response.status(401).json({ error: `Invalid authentication token` })
-          return
-        }
-        request.token = tokenHeader.split(" ")[1]
+// Auxiliary function
+function processRequest(requestProcessor, requiresAuthentication) {
+  return function(request, response) {
+    if (requiresAuthentication) {
+      const token = getToken(request);
+      if (!token) {
+        return response.status(401).json("Not authorized");
       }
-      try {
-        let body = await handler(request, response)
-        response.json(body)
-      } catch (e) {
-        const response = toHttpResponse(e)
-        response.status(response.status).json(response.body)
-        console.log(e)
-      }
+      request.token = token;
     }
-  }
+
+    return requestProcessor(request, response);
+  };
 }
