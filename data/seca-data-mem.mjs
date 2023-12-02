@@ -72,10 +72,11 @@ export async function createGroup(newGroup) {
         id: nextGroupId++,
         name: newGroup.name,
         description: newGroup.description,
-        userId: newGroup.id,
+        userId: newGroup.userId,
         events: []
     }
     GROUPS.push(group)
+    // console.log(GROUPS)
     return true
 }
 

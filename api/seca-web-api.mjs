@@ -44,8 +44,8 @@ export default function (secaEventsServices, secaGroupsServices, secaUsersServic
   async function _createGroup(req, rsp) {
     const newGroup = {
       name: req.body.name,
-      description: req.body.description,
-      events: req.body.events,
+      description: req.body.description
+      // events: req.body.events,
     }
 
     const group = await secaGroupsServices.createGroup(newGroup, req.token)
