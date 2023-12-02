@@ -25,9 +25,19 @@ let GROUPS = [
         name: "Best events ever",
         description: "These are the best events ever",
         userId: 1,
-        events: []
-    },
-    
+        events: [
+            {
+                "id": "G5v0Z9YcKe8Bi",
+                "name": "Phoenix Suns vs. Orlando Magic",
+                "date": "2024-01-01T01:00:00Z",
+                "venue": {
+                    "name": "Footprint Center",
+                    "country": "United States Of America",
+                    "city": "Phoenix"
+                }
+            }
+        ]
+    }, 
 ]
 
 let nextUserId = USERS.length >= 1 ? USERS[USERS.length - 1].id + 1 : 1
