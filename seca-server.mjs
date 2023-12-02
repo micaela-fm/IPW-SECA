@@ -18,7 +18,7 @@ import apiInit from "./api/seca-web-api.js"
 
 
 // Reading content from yaml doc
-const swaggerDocument = yaml.load("./docs/seca-api-spec.yaml")
+const swaggerDocument = yaml.load("./seca-api.yaml")
 // Reading port number from .env file
 const PORT = process.env.PORT
 
