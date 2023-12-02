@@ -19,11 +19,11 @@ export async function createGroup(newGroup, userToken) {
 }
 
 export async function editGroup(groupId, newGroup, userToken) {
-    if (!newGroup.title) throw `Invalid parameter: title`
+    if (!newGroup.name) throw `Invalid parameter: name`
     if (!newGroup.description) throw `Invalid parameter: description`
     const userId = await usersServices.getUserId(userToken)
-    let group = _getGroup(groupId, userId)
-    group.title = newGroup.title
+    let group = await _getGroup(groupId, userId)
+    group.name = newGroup.name
     group.description = newGroup.description
     return secaData.editGroup(group)
 }
