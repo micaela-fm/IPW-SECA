@@ -19,10 +19,6 @@ let USERS = [
     }
 ]
 
-let nextUserId = USERS.length >= 1 ? USERS[USERS.length - 1].id + 1 : 1
-
-let nextGroupId = GROUPS.length >= 1 ? GROUPS[GROUPS.length - 1].id + 1 : 1
-
 let GROUPS = [
     {
         id: 1,
@@ -33,6 +29,10 @@ let GROUPS = [
     },
     
 ]
+
+let nextUserId = USERS.length >= 1 ? USERS[USERS.length - 1].id + 1 : 1
+
+let nextGroupId = GROUPS.length >= 1 ? GROUPS[GROUPS.length - 1].id + 1 : 1
 
 export async function insertUser(username) {
     if(!USERS.find(u => u.name == username)) {
