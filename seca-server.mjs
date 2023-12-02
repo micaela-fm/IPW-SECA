@@ -5,12 +5,8 @@ import express from "express"
 import swaggerUi from "swagger-ui-express"
 import yaml from "yamljs"
 import cors from "cors"
-import * as dotenv from "dotenv"
-dotenv.config()
 
 // Importing internal modules
-// import * as secaData from "./data/seca-data-mem.js"
-// import * as tmData from "./data/tm-events-data.js"
 import * as secaEventsServices from "./services/seca-events-services.mjs"
 import * as secaGroupsServices from "./services/seca-groups-services.mjs"
 import * as secaUsersServices from "./services/seca-users-services.mjs"
@@ -20,10 +16,7 @@ import apiInit from "./api/seca-web-api.mjs"
 // Reading content from yaml doc
 const swaggerDocument = yaml.load("./seca-api.yaml")
 // Reading port number from .env file
-const PORT = process.env.PORT
-
-// // Seeding Ticketmaster events
-// await tmData.startEventCache(process.env.SEED_EVENT_CACHE);
+const PORT = 3000
 
 // Initializing secaServices and api
 const api = apiInit(secaEventsServices, secaGroupsServices, secaUsersServices)
