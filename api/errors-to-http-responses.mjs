@@ -14,7 +14,7 @@ export default function(error) {
         case ERROR_CODES.NOT_FOUND: return new HttpResponse(404, error)
         case ERROR_CODES.USER_NOT_FOUND: return new HttpResponse(401, error)
         case ERROR_CODES.NOT_AUTHORIZED: return new HttpResponse(401, error)
-        default: return new HttpResponse(500, "Internal server error. Contact your teacher!")
+        default: return new HttpResponse(500, "Internal server error.")
     }
 }
 
