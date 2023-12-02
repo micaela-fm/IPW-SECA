@@ -103,7 +103,7 @@ export default function (secaEventsServices, secaGroupsServices, secaUsersServic
   }
 
   // Create new user, given its username
-  async function _createUser(req, rsp) {
+  function _createUser(req, rsp) {
     const userName = { name: req.body.name }
 
     if (secaUsersServices.insertUser(userName)) {
