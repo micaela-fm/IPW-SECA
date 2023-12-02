@@ -1,6 +1,7 @@
 import crypto from 'node:crypto'
+import { getEventsById } from './tm-events-data.mjs'
 
-const USERS = [
+let USERS = [
     {
         id: 1,
         name: "Noemi Ferreira",
@@ -18,11 +19,11 @@ const USERS = [
     }
 ]
 
-let nextUserId = USERS.length+1
+let nextUserId = USERS.length >= 1 ? USERS[USERS.length - 1].id + 1 : 1
 
-let nextGroupId = GROUPS.length+1
+let nextGroupId = GROUPS.length >= 1 ? GROUPS[GROUPS.length - 1].id + 1 : 1
 
-const GROUPS = [
+let GROUPS = [
     {
         id: 1,
         name: "Best events ever",
@@ -79,6 +80,49 @@ export async function createGroup(newGroup) {
 }
 
 export async function editGroup(group) {
-    // TODO
+    const groupId = group.id
+    const newGROUPS = GROUPS.map( g => {
+        if (g.id == groupId) {
+            return group
+        }
+        return g
+    })
+    GROUPS = newGROUPS
+    return true
 }
 
+export async function deleteGroup(groupId) {
+    const newGROUPS = GROUPS.filter(g => {
+        g.id != groupId
+    })
+    GROUPS = newGROUPS
+    return true
+}
+
+export async function addEventToGroup(groupId, event) {
+    const newGROUPS = GROUPS.map(g => {
+        if (g.id == groupId) {
+            g.events.push(event)
+            return g
+        }
+        return g
+    })
+    GROUPS = newGROUPS
+    return true
+}
+
+export async function deleteEventFromGroup(groupId, eventId) {
+    const oldGroup = getGroup(groupId)
+    const newEventList = oldGroup.events.filter(e => {
+        e.id != eventId
+    })
+    const newGROUPS = GROUPS.map(g => {
+        if (g.id == groupId) {
+            g.events = newEventList
+            return g
+        }
+        return g
+    })
+    GROUPS = newGROUPS
+    return true
+}
