@@ -33,7 +33,7 @@ export default function (secaEventsServices, secaGroupsServices, secaUsersServic
 
   // Search events by name
   async function _searchEventsByName(req, rsp) {
-    const keyword = req.params.name
+    const keyword = req.params.keyword
     const size = req.query.size
     const page = req.query.page
     const events = await secaEventsServices.getEventsByName(keyword, size, page)

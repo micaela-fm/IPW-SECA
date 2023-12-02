@@ -62,7 +62,7 @@ export async function getAllGroups(userId) {
 }
 
 export async function getGroup(groupId) {
-    const group = GROUPS.filter (g => g.id == groupId)
+    const group = GROUPS.find (g => g.id == groupId)
     if (!group) throw `Group does not exist`
     return group
 }
