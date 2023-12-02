@@ -1,4 +1,5 @@
 import crypto from 'node:crypto'
+import errors from '../common/errors.mjs'
 
 let USERS = [
     {
@@ -41,16 +42,16 @@ export async function insertUser(username) {
             token: crypto.randomUUID()
         }
         USERS.push(user)
-        return true
+        return user.token
     } 
-    return false
+    throw errors.INVALID_ARGUMENT("username already exists")
 }
 
 export async function getUserId(userToken) {
     const user = USERS.find(u => {
         return u.token == userToken
     })
-    if (!user) throw `Invalid user token`
+    if (!user) throw errors.USER_NOT_FOUND
     return user.id
 }
 
