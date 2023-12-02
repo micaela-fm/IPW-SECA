@@ -20,8 +20,6 @@ const USERS = [
 
 let nextUserId = USERS.length+1
 
-let nextGroupId = GROUPS.length+1
-
 const GROUPS = [
     {
         id: 1,
@@ -32,6 +30,8 @@ const GROUPS = [
     },
     
 ]
+
+let nextGroupId = GROUPS.length+1
 
 export async function insertUser(username) {
     if(!USERS.find(u => u.name == username)) {
