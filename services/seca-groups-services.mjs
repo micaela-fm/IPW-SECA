@@ -22,7 +22,7 @@ export async function editGroup(groupId, newGroup, userToken) {
     if (!newGroup.title) throw `Invalid parameter: title`
     if (!newGroup.description) throw `Invalid parameter: description`
     const userId = await usersServices.getUserId(userToken)
-    const group = _getGroup(groupId, userId)
+    let group = _getGroup(groupId, userId)
     group.title = newGroup.title
     group.description = newGroup.description
     return secaData.editGroup(group)
@@ -38,7 +38,7 @@ export async function addEventToGroup(groupId, eventId, userToken) {
     const userId = usersServices.getUserId(userToken)
     const group = _getGroup(groupId, userId)
     const event = tmData.getEventById(eventId)
-    return secaData.addEventToGroup(groupId, eventId)
+    return secaData.addEventToGroup(groupId, event)
 }
 
 export async function deleteEventFromGroup(groupId, eventId, userToken) {
