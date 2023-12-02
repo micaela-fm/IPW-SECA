@@ -104,9 +104,9 @@ export default function (secaEventsServices, secaGroupsServices, secaUsersServic
 
   // Create new user, given its username
   async function _createUser(req, rsp) {
-    const userName = { name: req.body.name }
-
-    if (secaUsersServices.insertUser(userName)) {
+    const userName = req.body.name
+    const user = await secaUsersServices.insertUser(userName)
+    if (user) {
       return rsp.status(201).json({ "user-token": user.token })
     }
     rsp.status(400).json("User already exists")
