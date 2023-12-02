@@ -39,7 +39,7 @@ export async function editGroup(groupId, newGroup, userToken) {
 export async function deleteGroup(groupId, userToken) {
     const userId = await usersServices.getUserId(userToken)
     if (!userId) throw errors.USER_NOT_FOUND
-    const group = _getGroup(groupId, userId) 
+    const group = await _getGroup(groupId, userId) 
     if (!group) throw errors.NOT_FOUND("Group")
     return secaData.deleteGroup(groupId)
 }
