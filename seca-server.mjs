@@ -22,8 +22,8 @@ const swaggerDocument = yaml.load("./seca-api.yaml")
 // Reading port number from .env file
 const PORT = process.env.PORT
 
-// Seeding Ticketmaster events
-await tmData.startEventCache(process.env.SEED_EVENT_CACHE);
+// // Seeding Ticketmaster events
+// await tmData.startEventCache(process.env.SEED_EVENT_CACHE);
 
 // Initializing secaServices and api
 const api = apiInit(secaEventsServices, secaGroupsServices, secaUsersServices)
@@ -39,7 +39,7 @@ app.use(express.json())
 // Registering all HTTP api routes
 app.get("/events", api.searchEvents)
 
-app.get("/events/popular", api.popularEvents)
+app.get("/events/popular", api.getPopularEvents)
 
 app.get("/groups", api.listsGroups)
 app.post("/groups", api.createGroup)
