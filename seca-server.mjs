@@ -9,12 +9,12 @@ import * as dotenv from "dotenv"
 dotenv.config()
 
 // Importing internal modules
-import * as secaData from "./data/seca-data-mem.js"
-import * as tmData from "./data/tm-events-data.js"
-import * as secaEventsServices from "./services/seca-events-services.js"
-import * as secaGroupsServices from "./services/seca-groups-services.js"
-import * as secaUsersServices from "./services/seca-users-services.js"
-import apiInit from "./api/seca-web-api.js"
+// import * as secaData from "./data/seca-data-mem.js"
+// import * as tmData from "./data/tm-events-data.js"
+import * as secaEventsServices from "./services/seca-events-services.mjs"
+import * as secaGroupsServices from "./services/seca-groups-services.mjs"
+import * as secaUsersServices from "./services/seca-users-services.mjs"
+import apiInit from "./api/seca-web-api.mjs"
 
 
 // Reading content from yaml doc
@@ -41,16 +41,16 @@ app.get("/events", api.searchEvents)
 
 app.get("/events/popular", api.getPopularEvents)
 
-app.get("/groups", api.listsGroups)
+app.get("/groups", api.listGroups)
 app.post("/groups", api.createGroup)
 
-api.get("/groups/:id", api.getGroupDetails)
-api.put("/groups/:id", api.editGroup)
-api.delete("/groups/:id", api.deleteGroup)
+app.get("/groups/:id", api.getGroupDetails)
+app.put("/groups/:id", api.editGroup)
+app.delete("/groups/:id", api.deleteGroup)
 
-api.post("/groups/:id/events", api.addEvent)
+app.post("/groups/:id/events", api.addEvent)
 
-api.delete("/groups/:id/events/:eventId", api.removeEvent)
+app.delete("/groups/:id/events/:eventId", api.removeEvent)
 
 app.post("/users", api.createUser)
 
