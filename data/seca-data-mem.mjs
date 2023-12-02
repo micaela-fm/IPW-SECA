@@ -52,7 +52,6 @@ export async function insertUser(username) {
             token: crypto.randomUUID()
         }
         USERS.push(user)
-        console.log(USERS)
         return user.token
     } 
     throw errors.INVALID_ARGUMENT("username already exists")
