@@ -1,8 +1,9 @@
 import * as tmData from '../data/tm-events-data.mjs'
+import errors from '../common/errors.mjs'
 
 export async function getEventsByName(keyword, s, p) {
     if(!keyword) {
-        throw `Invalid keyword`
+        throw errors.INVALID_ARGUMENT("keyword")
     }
     const parameters = await validateParameters(s, p)
     const size = parameters.size
@@ -19,7 +20,7 @@ export async function getPopularEvents(s, p) {
 
 export async function getEventsById(eventId) {
     if (!eventId) {
-        throw `Invalid event ID`
+        throw errors.INVALID_ARGUMENT("event ID")
     }
     return tmData.getEventsById(eventId)
 }
