@@ -1,5 +1,4 @@
 import crypto from 'node:crypto'
-import { getEventsById } from './tm-events-data.mjs'
 
 let USERS = [
     {
