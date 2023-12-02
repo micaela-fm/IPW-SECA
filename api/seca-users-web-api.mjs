@@ -7,10 +7,10 @@ export const createUser = processRequest(createUser, false)
 
 // Create new user, given its username
 async function createUser(req, rsp) {
-    const userName = { name: req.body.name }
-  
-    if(secaServices.insertUser(userName)) {
-      return rsp.status(201).json({"user-token": user.token})
-    } 
-    rsp.status(400).json("User already exists")
-  }
+  const userName = { name: req.body.name }
+
+  if(secaServices.insertUser(userName)) {
+    return rsp.status(201).json({"user-token": user.token})
+  } 
+  rsp.status(400).json("User already exists")
+}
