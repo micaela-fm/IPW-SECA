@@ -5,16 +5,16 @@ export async function getEventsByName(keyword, s, p) {
         throw `Invalid keyword`
     }
     const parameters = await validateParameters(s, p)
-    const limit = parameters.limit
+    const size = parameters.size
     const page = parameters.page
-    return tmData.getEventsByName(keyword, limit, page)
+    return tmData.getEventsByName(keyword, size, page)
 }
 
 export async function getPopularEvents(s, p) {
     const parameters = await validateParameters(s, p)
-    const limit = parameters.limit
+    const size = parameters.size
     const page = parameters.page
-    return tmData.getPopularEvents(limit, page)
+    return tmData.getPopularEvents(size, page)
 }
 
 export async function getEventsById(eventId) {
@@ -25,8 +25,8 @@ export async function getEventsById(eventId) {
 }
 
 async function validateParameters(s, p) {
-    let limit = Number(s) || 30
+    let size = Number(s) || 30
     let page = Number(p) || 1
-    return {limit, page}
+    return {size, page}
 }
 
