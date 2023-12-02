@@ -37,9 +37,22 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 app.use(express.json())
 
 // Registering all HTTP api routes
-app.get("/events", api.getEvents)
+app.get("/events", api.searchEvents)
 
 app.get("/events/popular", api.popularEvents)
+
+app.get("/groups", api.listsGroups)
+app.post("/groups", api.createGroup)
+
+api.get("/groups/:id", api.getGroupDetails)
+api.put("/groups/:id", api.editGroup)
+api.delete("/groups/:id", api.deleteGroup)
+
+api.post("/groups/:id/events", api.addEvent)
+
+api.delete("/groups/:id/events/:eventId", api.removeEvent)
+
+app.post("/users", api.createUser)
 
 app.listen(PORT, () => console.log(`Server listening in http://localhost:${PORT}`))
 
