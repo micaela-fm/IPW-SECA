@@ -91,7 +91,7 @@ export default function (secaEventsServices, secaGroupsServices, secaUsersServic
     const groupId = req.params.id
     const eventId = req.params.eventId
     const event = await secaGroupsServices.addEventToGroup(groupId, eventId, req.token)
-    rsp.json(`Event ${eventId} added to group ${groupId}`)
+    rsp.json(`Event added to group ${groupId}`)
   }
 
   // Remove an event from a group
@@ -99,7 +99,7 @@ export default function (secaEventsServices, secaGroupsServices, secaUsersServic
     const groupId = req.params.id
     const eventId = req.params.eventId
     const event = await secaGroupsServices.deleteEventFromGroup(groupId, eventId, req.token)
-    rsp.json(`Event ${eventId} removed from group ${groupId}`)
+    rsp.json(`Event removed from group ${groupId}`)
   }
 
   // Create new user, given its username

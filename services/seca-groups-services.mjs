@@ -45,21 +45,21 @@ export async function deleteGroup(groupId, userToken) {
 }
 
 export async function addEventToGroup(groupId, eventId, userToken) {
-    const userId = usersServices.getUserId(userToken)
+    const userId = await usersServices.getUserId(userToken)
     if (!userId) throw errors.USER_NOT_FOUND
-    const group = _getGroup(groupId, userId)
+    const group = await _getGroup(groupId, userId)
     if (!group) throw errors.NOT_FOUND("Group")
-    const event = tmData.getEventById(eventId)
+    const event = await tmData.getEventById(eventId)
     if (!event) throw errors.NOT_FOUND("Event")
     return secaData.addEventToGroup(groupId, event)
 }
 
 export async function deleteEventFromGroup(groupId, eventId, userToken) {
-    const userId = usersServices.getUserId(userToken)
+    const userId = await usersServices.getUserId(userToken)
     if (!userId) throw errors.USER_NOT_FOUND
-    const group = _getGroup(groupId, userId)
+    const group = await _getGroup(groupId, userId)
     if (!group) throw errors.NOT_FOUND("Group")
-    const event = tmData.getEventById(eventId)
+    const event = await tmData.getEventById(eventId)
     if (!event) throw errors.NOT_FOUND("Event")
     return secaData.deleteEventFromGroup(groupId, eventId)
 }

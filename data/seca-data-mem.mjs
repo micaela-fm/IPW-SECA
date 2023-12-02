@@ -75,7 +75,6 @@ export async function createGroup(newGroup) {
         events: []
     }
     GROUPS.push(group)
-    // console.log(GROUPS)
     return true
 }
 
