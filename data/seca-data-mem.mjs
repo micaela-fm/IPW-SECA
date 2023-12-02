@@ -122,7 +122,7 @@ export async function addEventToGroup(groupId, event) {
 }
 
 export async function deleteEventFromGroup(groupId, eventId) {
-    const oldGroup = getGroup(groupId)
+    const oldGroup = await getGroup(groupId)
     const newEventList = oldGroup.events.filter(e => {
         e.id != eventId
     })
