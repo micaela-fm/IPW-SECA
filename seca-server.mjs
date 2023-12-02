@@ -26,7 +26,7 @@ const PORT = process.env.PORT
 await tmData.startEventCache(process.env.SEED_EVENT_CACHE);
 
 // Initializing secaServices and api
-const api = apiInit(secaServices)
+const api = apiInit(secaEventsServices, secaGroupsServices, secaUsersServices)
 
 // Creating and initializing the Express application
 console.log("Starting server set up")

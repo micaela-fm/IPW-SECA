@@ -2,9 +2,13 @@
 import errorToHttp from './errors-to-http-responses.mjs'
 import errors from '../common/errors.mjs'
 
-export default function (secaServices) {
-  if (!secaServices)
-    throw errors.INVALID_ARGUMENT("secaServices")
+export default function (secaEventsServices, secaGroupsServices, secaUsersServices) {
+  if (!secaEventsServices)
+    throw errors.INVALID_ARGUMENT("secaEventsServices")
+  if (!secaGroupsServices)
+    throw errors.INVALID_ARGUMENT("secaGroupsServices")
+  if (!secaUsersServices)
+    throw errors.INVALID_ARGUMENT("secaUsersServices")
 
   return {
     getPopularEvents: processRequest(_getPopularEvents, false),
@@ -23,7 +27,7 @@ export default function (secaServices) {
   async function _getPopularEvents(req, rsp) {
     const size = req.query.size
     const page = req.query.page
-    const events = await secaServices.getPopularEvents(size, page)
+    const events = await secaEventsServices.getPopularEvents(size, page)
     return rsp.json(events)
   }
 
@@ -32,7 +36,7 @@ export default function (secaServices) {
     const keyword = req.params.name
     const size = req.query.size
     const page = req.query.page
-    const events = await secaServices.getEventsByName(keyword, size, page)
+    const events = await secaEventsServices.getEventsByName(keyword, size, page)
     return rsp.json(events)
   }
 
@@ -44,7 +48,7 @@ export default function (secaServices) {
       events: req.body.events,
     }
 
-    const group = await secaServices.createGroup(newGroup, req.token)
+    const group = await secaGroupsServices.createGroup(newGroup, req.token)
     rsp.status(201).json(group)
   }
 
@@ -56,27 +60,27 @@ export default function (secaServices) {
       description: req.body.description
     }
 
-    const group = await secaServices.editGroup(groupId, newGroup, req.token)
+    const group = await secaGroupsServices.editGroup(groupId, newGroup, req.token)
     rsp.json(group)
   }
 
   // List all groups
   async function _listAllGroups(req, rsp) {
-    const groups = await secaServices.getAllGroups(req.token)
+    const groups = await secaGroupsServices.getAllGroups(req.token)
     rsp.json(groups)
   }
 
   // Delete a group
   async function _deleteGroup(req, rsp) {
     const groupId = req.params.id
-    const group = await secaServices.deleteGroup(groupId, req.token)
+    const group = await secaGroupsServices.deleteGroup(groupId, req.token)
     rsp.json(`Group ${groupId} deleted`)
   }
 
   // Get the details of a group
   async function _getGroupDetails(req, rsp) {
     const groupId = req.params.id
-    const group = await secaServices.getGroup(groupId, req.token)
+    const group = await secaGroupsServices.getGroup(groupId, req.token)
     if (group)
       return rsp.json(group)
     rsp.status(404).json(`Group ${groupId} not found`)
@@ -86,7 +90,7 @@ export default function (secaServices) {
   async function _addEventToGroup(req, rsp) {
     const groupId = req.params.id
     const eventId = req.params.eventId
-    const event = await secaServices.addEventToGroup(groupId, eventId, req.token)
+    const event = await secaGroupsServices.addEventToGroup(groupId, eventId, req.token)
     rsp.json(`Event ${eventId} added to group ${groupId}`)
   }
 
@@ -94,7 +98,7 @@ export default function (secaServices) {
   async function _removeEvent(req, rsp) {
     const groupId = req.params.id
     const eventId = req.params.eventId
-    const event = await secaServices.deleteEventFromGroup(groupId, eventId, req.token)
+    const event = await secaGroupsServices.deleteEventFromGroup(groupId, eventId, req.token)
     rsp.json(`Event ${eventId} removed from group ${groupId}`)
   }
 
@@ -102,7 +106,7 @@ export default function (secaServices) {
   async function _createUser(req, rsp) {
     const userName = { name: req.body.name }
 
-    if (secaServices.insertUser(userName)) {
+    if (secaUsersServices.insertUser(userName)) {
       return rsp.status(201).json({ "user-token": user.token })
     }
     rsp.status(400).json("User already exists")
