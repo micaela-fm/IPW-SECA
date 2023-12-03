@@ -15,7 +15,7 @@ export default {
     NOT_FOUND: (what) => { 
         return new Error(ERROR_CODES.NOT_FOUND,`${what} not found`)
     },
-    USER_NOT_FOUND: (what) => { 
+    USER_NOT_FOUND: () => { 
         return new Error(ERROR_CODES.USER_NOT_FOUND,`User not found`)
     },
     NOT_AUTHORIZED: (who, what) => { 
