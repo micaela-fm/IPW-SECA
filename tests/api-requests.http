@@ -1,0 +1,61 @@
+@token = 3eac1b5d-1386-4ecd-a831-656c75c410f0
+
+## Get events by name
+GET http://localhost:3000/events?keyword=taylor-swift&size=10
+
+## Get most popular events
+GET http://localhost:3000/events/popular?page=1
+
+## List all groups
+GET http://localhost:3000/groups
+Authorization: Bearer {{token}}
+
+## Create a group
+POST http://localhost:3000/groups
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "name": "New Group" 
+    "description": "This is a new group"
+}
+
+## Get details of a group
+GET http://localhost:3000/groups/1
+Authorization: Bearer {{token}}
+
+## Edit details of a group
+PUT http://localhost:3000/groups/2
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "name": "New Group Restyled" 
+    "description": "This is a restyled group"
+}
+
+## Delete a group
+DELETE http://localhost:3000/groups/2
+Authorization: Bearer {{token}}
+
+## Add an event to a group
+POST http://localhost:3000/groups/1/events
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "eventId": "Z698xZ2qZa6y5"
+}
+
+## Delete an event from a group
+DELETE http://localhost:3000/groups/1/events/2
+Authorization: Bearer {{token}}
+
+## Create an user
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+    "username": "Prof" 
+}
+
