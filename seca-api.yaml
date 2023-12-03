@@ -2,8 +2,6 @@ openapi: 3.0.1
 info:
   title: Seca API
   description: This is a simple API for managing events, groups of events and users
-  contact:
-    email: 
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
@@ -27,7 +25,6 @@ paths:
       summary: adds a user
       description: Adds a user to the system
       operationId: addUser
-      security: []
       requestBody:
         description: User to add
         content:
@@ -319,7 +316,19 @@ components:
       type: http
       scheme: bearer
   schemas:
-    NewEvent:
+    Event:
+        type: object
+        required:
+          - id
+          - userId
+        properties:
+          id:
+            type: integer
+            example: 1
+          userId:
+            type: integer
+            example: 1
+    NewGroup:
       required:
       - title
       type: object
@@ -330,9 +339,9 @@ components:
         description:
           type: string
           example: To develop web applications, knowing HTTP is fundamental
-    Event:
+    Group:
       allOf: 
-        - $ref: "#/components/schemas/NewEvent"
+        - $ref: "#/components/schemas/NewGroup"
         - type: object
           required:
           - id
@@ -343,7 +352,7 @@ components:
               example: 1
             userId:
               type: integer
-              example: 1
+              example: 1          
     NewUser:
       type: object
       required:
@@ -352,7 +361,7 @@ components:
         userName:
           type: string
           example: antonio.silva
-    NewEventCreated:
+    NewGroupCreated:
       required:
       - status
       - event
@@ -362,7 +371,7 @@ components:
           type: string
           example: Event with id 123 created with success
         event:
-          $ref: '#/components/schemas/Event'
+          $ref: '#/components/schemas/Group'
     MissingParameter:
       type: object
       properties:
