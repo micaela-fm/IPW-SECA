@@ -73,7 +73,7 @@ export async function getAllGroups(userId) {
 
 export async function getGroup(groupId) {
     const group = GROUPS.find (g => g.id == groupId)
-    if (!group) throw `Group does not exist`
+    if (!group) throw errors.NOT_FOUND("Group")
     return group
 }
 
@@ -86,7 +86,7 @@ export async function createGroup(newGroup) {
         events: []
     }
     GROUPS.push(group)
-    return true
+    return group
 }
 
 export async function editGroup(group) {
@@ -98,7 +98,7 @@ export async function editGroup(group) {
         return g
     })
     GROUPS = newGROUPS
-    return true
+    return GROUPS[groupId - 1]
 }
 
 export async function deleteGroup(groupId) {

@@ -27,7 +27,7 @@ export async function getEventById(eventId) {
     const rsp = await fetch(`${partialURL}/${eventId}.json?apikey=${apiKey}`)
         .then(r => r.json());
 
-    if (rsp == null) { return null }
+    if (!rsp || !rsp._embedded) return null
 
     const event = standardEventDetails(rsp)
 

@@ -10,7 +10,7 @@ export const ERROR_CODES = {
 
 export default {
     INVALID_ARGUMENT: argName => {
-        return new Error(ERROR_CODES.INVALID_ARGUMENT, `Invalid argument ${argName}`)
+        return new Error(ERROR_CODES.INVALID_ARGUMENT, `Invalid argument: ${argName}`)
     },
     NOT_FOUND: (what) => { 
         return new Error(ERROR_CODES.NOT_FOUND,`${what} not found`)

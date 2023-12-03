@@ -18,6 +18,7 @@ export async function getGroup(groupId, userToken) {
 }
 
 export async function createGroup(newGroup, userToken) {
+    newGroup = await validateGroupParameters(newGroup)
     const userId = await usersServices.getUserId(userToken)
     if (!userId) throw errors.USER_NOT_FOUND
     newGroup.userId = userId
@@ -25,8 +26,7 @@ export async function createGroup(newGroup, userToken) {
 }
 
 export async function editGroup(groupId, newGroup, userToken) {
-    if (!newGroup.name) throw errors.INVALID_ARGUMENT("group name")
-    if (!newGroup.description) throw errors.INVALID_ARGUMENT("group description")
+    newGroup = await validateGroupParameters(newGroup)
     const userId = await usersServices.getUserId(userToken)
     if (!userId) throw errors.USER_NOT_FOUND
     let group = await _getGroup(groupId, userId)
@@ -69,5 +69,11 @@ async function _getGroup(groupId, userId) {
     if(group.userId == userId)
         return group
     throw errors.NOT_AUTHORIZED(`User ${userId}`, `group ${groupId}`)
+}
+
+async function validateGroupParameters(group) {
+    if(!group.name) throw errors.INVALID_ARGUMENT("group name")
+    if(!group.description) throw errors.INVALID_ARGUMENT("group description")
+    return group
 }
 
