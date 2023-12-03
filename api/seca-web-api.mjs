@@ -88,7 +88,7 @@ export default function (secaEventsServices, secaGroupsServices, secaUsersServic
   // Add a event to a group
   async function _addEventToGroup(req, rsp) {
     const groupId = req.params.id
-    const eventId = req.params.eventId
+    const eventId = req.body.eventId
     const event = await secaGroupsServices.addEventToGroup(groupId, eventId, req.token)
     rsp.json(`Event added to group ${groupId}`)
   }
