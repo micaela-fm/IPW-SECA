@@ -16,7 +16,7 @@ Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-    "name": "New Group" 
+    "name": "New Group",
     "description": "This is a new group"
 }
 
@@ -30,7 +30,7 @@ Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-    "name": "New Group Restyled" 
+    "name": "New Group Restyled", 
     "description": "This is a restyled group"
 }
 
