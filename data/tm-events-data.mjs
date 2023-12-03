@@ -1,4 +1,3 @@
-
 const partialURL = `https://app.ticketmaster.com/discovery/v2/events`;
 const apiKey = 'ScS7GANgbw2KFur1iOp7dpQME1gAdieS';
 
@@ -52,3 +51,4 @@ function standardEventDetails(data) {
     };
     return event
 }
+
