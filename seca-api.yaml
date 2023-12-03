@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: Seca API
-  description: This is a simple API for managing events
+  description: This is a simple API for managing events, groups of events and users
   contact:
     email: 
   license:
@@ -10,7 +10,7 @@ info:
   version: 1.0.0
 servers:
   - description: Localhost server for testing API
-    url: http://localhost:1993
+    url: http://localhost:3000
 
 security:
   - bearerAuth: []
