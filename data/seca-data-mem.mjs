@@ -73,7 +73,7 @@ export async function getAllGroups(userId) {
 
 export async function getGroup(groupId) {
     const group = GROUPS.find (g => g.id == groupId)
-    if (!group) throw `Group does not exist`
+    if (!group) throw errors.NOT_FOUND("Group")
     return group
 }
 
