@@ -96,7 +96,7 @@ export default function (secaEventsServices, secaGroupsServices, secaUsersServic
   // Remove an event from a group
   async function _removeEvent(req, rsp) {
     const groupId = req.params.id
-    const eventId = req.body.eventId
+    const eventId = req.params.eventId
     const event = await secaGroupsServices.deleteEventFromGroup(groupId, eventId, req.token)
     rsp.json(`Event removed from group ${groupId}`)
   }
@@ -116,9 +116,9 @@ export default function (secaEventsServices, secaGroupsServices, secaUsersServic
   function processRequest(requestProcessor, requiresAuthentication) {
     return async function (req, rsp) {
       if (requiresAuthentication) {
-        const token = getToken(req);
+        const token = getToken(req)
         if (!token) {
-          rsp
+          return rsp
             .status(401)
             .json({ error: `Invalid authentication token` })
         }
@@ -129,7 +129,7 @@ export default function (secaEventsServices, secaGroupsServices, secaUsersServic
         const rspError = errorToHttp(error)
         rsp.status(rspError.status).json(rspError.body)
         console.log(error)
-      };
+      }
     }
   }
 
