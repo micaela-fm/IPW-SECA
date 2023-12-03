@@ -61,13 +61,13 @@ export async function getUserId(userToken) {
     const user = USERS.find(u => {
         return u.token == userToken
     })
-    if (!user) throw errors.USER_NOT_FOUND
+    if (!user) throw errors.USER_NOT_FOUND()
     return user.id
 }
 
 export async function getAllGroups(userId) {
     const groups = GROUPS.filter (g => g.userId == userId)
-    if (!groups || groups.length < 1) throw `User has no groups`
+    if (!groups || groups.length < 1) throw errors.NOT_FOUND("Group")
     return groups
 }
 
@@ -98,7 +98,7 @@ export async function editGroup(group) {
         return g
     })
     GROUPS = newGROUPS
-    return GROUPS[groupId - 1]
+    return GROUPS.filter(g => g.id == groupId)[0]
 }
 
 export async function deleteGroup(groupId) {
@@ -122,6 +122,8 @@ export async function addEventToGroup(groupId, event) {
 }
 
 export async function deleteEventFromGroup(groupId, eventId) {
+    const event = GROUPS.filter(g => g.id == groupId)[0].events.filter(e => e.id == eventId)[0]
+    if (!event || event.length < 1) throw errors.NOT_FOUND("Event")
     const oldGroup = await getGroup(groupId)
     const newEventList = oldGroup.events.filter(e => {
         e.id != eventId
