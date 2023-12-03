@@ -52,13 +52,13 @@ const mockEventData = [
   ];
   
   export async function getEventsByName(keyword, size, page) {
-    const results = mockEventData.filter(e => e.name.includes(keyword)).slice(page * size, (page + 1) * size);
+    const results = mockEventData.filter(e => e.name.includes(keyword)).slice(0, size);
     const events = processResults(results);
     return events;
   }
   
   export async function getPopularEvents(size, page) {
-    const results = mockEventData.slice(page * size, (page + 1) * size);
+    const results = mockEventData.slice(0, size);
     const events = processResults(results);
     return events;
   }
