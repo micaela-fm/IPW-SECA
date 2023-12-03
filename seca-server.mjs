@@ -43,7 +43,7 @@ app.delete("/groups/:id", api.deleteGroup)
 
 app.post("/groups/:id/events", api.addEvent)
 
-app.delete("/groups/:id/events/:eventId", api.removeEvent)
+app.delete("/groups/:id/events", api.removeEvent)
 
 app.post("/users", api.createUser)
 
