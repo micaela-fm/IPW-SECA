@@ -1,5 +1,5 @@
 import * as tmData from '../data/tm-events-data.mjs'
-import * as mockData from '../tests/tm-events-mock.mjs'
+import * as mockData from '../test/tm-events-mock.mjs'
 import errors from '../common/errors.mjs'
 
 let test = false;
