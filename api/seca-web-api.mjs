@@ -97,7 +97,7 @@ export default function (secaEventsServices, secaGroupsServices, secaUsersServic
   // Remove an event from a group
   async function _removeEvent(req, rsp) {
     const groupId = req.params.id
-    const eventId = req.params.eventId
+    const eventId = req.body.eventId
     const event = await secaGroupsServices.deleteEventFromGroup(groupId, eventId, req.token)
     rsp.json(`Event removed from group ${groupId}`)
   }

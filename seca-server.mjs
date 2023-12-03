@@ -41,7 +41,7 @@ app.get("/groups/:id", api.getGroupDetails)
 app.put("/groups/:id", api.editGroup)
 app.delete("/groups/:id", api.deleteGroup)
 
-app.post("/groups/:id/events/:eventId", api.addEvent)
+app.post("/groups/:id/events", api.addEvent)
 
 app.delete("/groups/:id/events/:eventId", api.removeEvent)
 
