@@ -6,21 +6,21 @@ import errors from '../common/errors.mjs'
 export async function getAllGroups(userToken) {
     if (!userToken) throw errors.INVALID_ARGUMENT("token")
     const userId = await usersServices.getUserId(userToken)
-    if (!userId) throw errors.USER_NOT_FOUND
+    if (!userId) throw errors.USER_NOT_FOUND()
     return secaData.getAllGroups(userId)
 }
 
 export async function getGroup(groupId, userToken) {
     if (!userToken) throw errors.INVALID_ARGUMENT("token")
     const userId = await usersServices.getUserId(userToken)
-    if (!userId) throw errors.USER_NOT_FOUND
+    if (!userId) throw errors.USER_NOT_FOUND()
     return _getGroup(groupId, userId)
 }
 
 export async function createGroup(newGroup, userToken) {
     newGroup = await validateGroupParameters(newGroup)
     const userId = await usersServices.getUserId(userToken)
-    if (!userId) throw errors.USER_NOT_FOUND
+    if (!userId) throw errors.USER_NOT_FOUND()
     newGroup.userId = userId
     return secaData.createGroup(newGroup)
 }
@@ -28,7 +28,7 @@ export async function createGroup(newGroup, userToken) {
 export async function editGroup(groupId, newGroup, userToken) {
     newGroup = await validateGroupParameters(newGroup)
     const userId = await usersServices.getUserId(userToken)
-    if (!userId) throw errors.USER_NOT_FOUND
+    if (!userId) throw errors.USER_NOT_FOUND()
     let group = await _getGroup(groupId, userId)
     if (!group) throw errors.NOT_FOUND("Group")
     group.name = newGroup.name
@@ -38,7 +38,7 @@ export async function editGroup(groupId, newGroup, userToken) {
 
 export async function deleteGroup(groupId, userToken) {
     const userId = await usersServices.getUserId(userToken)
-    if (!userId) throw errors.USER_NOT_FOUND
+    if (!userId) throw errors.USER_NOT_FOUND()
     const group = await _getGroup(groupId, userId) 
     if (!group) throw errors.NOT_FOUND("Group")
     return secaData.deleteGroup(groupId)
@@ -46,7 +46,7 @@ export async function deleteGroup(groupId, userToken) {
 
 export async function addEventToGroup(groupId, eventId, userToken) {
     const userId = await usersServices.getUserId(userToken)
-    if (!userId) throw errors.USER_NOT_FOUND
+    if (!userId) throw errors.USER_NOT_FOUND()
     const group = await _getGroup(groupId, userId)
     if (!group) throw errors.NOT_FOUND("Group")
     const event = await tmData.getEventById(eventId)
@@ -56,11 +56,9 @@ export async function addEventToGroup(groupId, eventId, userToken) {
 
 export async function deleteEventFromGroup(groupId, eventId, userToken) {
     const userId = await usersServices.getUserId(userToken)
-    if (!userId) throw errors.USER_NOT_FOUND
+    if (!userId) throw errors.USER_NOT_FOUND()
     const group = await _getGroup(groupId, userId)
     if (!group) throw errors.NOT_FOUND("Group")
-    const event = await tmData.getEventById(eventId)
-    if (!event) throw errors.NOT_FOUND("Event")
     return secaData.deleteEventFromGroup(groupId, eventId)
 }
 
