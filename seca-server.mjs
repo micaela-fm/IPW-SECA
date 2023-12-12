@@ -8,8 +8,10 @@ import cors from "cors"
 
 // Importing internal modules
 import * as secaEventsServices from "./services/seca-events-services.mjs"
-import * as secaGroupsServices from "./services/seca-groups-services.mjs"
-import * as secaUsersServices from "./services/seca-users-services.mjs"
+import initGroupsServices from "./services/seca-groups-services.mjs"
+import initUsersServices from "./services/seca-users-services.mjs"
+//import * as secaGroupsServices from "./services/seca-groups-services.mjs"
+//import * as secaUsersServices from "./services/seca-users-services.mjs"
 import apiInit from "./api/seca-web-api.mjs"
 
 
@@ -19,6 +21,8 @@ const swaggerDocument = yaml.load("./seca-api.yaml")
 const PORT = 3000
 
 // Initializing secaServices and api
+const secaGroupsServices = initGroupsServices(null)
+const secaUsersServices = initUsersServices(null)
 const api = apiInit(secaEventsServices, secaGroupsServices, secaUsersServices)
 
 // Creating and initializing the Express application
