@@ -44,97 +44,113 @@ let nextUserId = USERS.length >= 1 ? USERS[USERS.length - 1].id + 1 : 1
 
 let nextGroupId = GROUPS.length >= 1 ? GROUPS[GROUPS.length - 1].id + 1 : 1
 
-export async function insertUser(username) {
-    if(!USERS.find(u => u.name == username)) {
-        const user = {
-            id: nextUserId++,
-            name: username,
-            token: crypto.randomUUID()
-        }
-        USERS.push(user)
-        return user.token
-    } 
-    throw errors.INVALID_ARGUMENT("username already exists")
-}
-
-export async function getUserId(userToken) {
-    const user = USERS.find(u => {
-        return u.token == userToken
-    })
-    if (!user) throw errors.USER_NOT_FOUND()
-    return user.id
-}
-
-export async function getAllGroups(userId) {
-    const groups = GROUPS.filter (g => g.userId == userId)
-    if (!groups || groups.length < 1) throw errors.NOT_FOUND("Group")
-    return groups
-}
-
-export async function getGroup(groupId) {
-    const group = GROUPS.find (g => g.id == groupId)
-    if (!group) throw errors.NOT_FOUND("Group")
-    return group
-}
-
-export async function createGroup(newGroup) {
-    const group = {
-        id: nextGroupId++,
-        name: newGroup.name,
-        description: newGroup.description,
-        userId: newGroup.userId,
-        events: []
+export default function () {
+    return {
+        insertUser,
+        getUserId,
+        getAllGroups,
+        getGroup,
+        createGroup,
+        editGroup,
+        deleteGroup,
+        addEventToGroup,
+        deleteEventFromGroup
     }
-    GROUPS.push(group)
-    return group
-}
 
-export async function editGroup(group) {
-    const groupId = group.id
-    const newGROUPS = GROUPS.map( g => {
-        if (g.id == groupId) {
-            return group
+    async function insertUser(username) {
+        if(!USERS.find(u => u.name == username)) {
+            const user = {
+                id: nextUserId++,
+                name: username,
+                token: crypto.randomUUID()
+            }
+            USERS.push(user)
+            return user.token
+        } 
+        throw errors.INVALID_ARGUMENT("username already exists")
+    }
+    
+    async function getUserId(userToken) {
+        const user = USERS.find(u => {
+            return u.token == userToken
+        })
+        if (!user) throw errors.USER_NOT_FOUND()
+        return user.id
+    }
+    
+    async function getAllGroups(userId) {
+        const groups = GROUPS.filter (g => g.userId == userId)
+        if (!groups || groups.length < 1) throw errors.NOT_FOUND("Group")
+        return groups
+    }
+    
+    async function getGroup(groupId) {
+        const group = GROUPS.find (g => g.id == groupId)
+        if (!group) throw errors.NOT_FOUND("Group")
+        return group
+    }
+    
+    async function createGroup(newGroup) {
+        const group = {
+            id: nextGroupId++,
+            name: newGroup.name,
+            description: newGroup.description,
+            userId: newGroup.userId,
+            events: []
         }
-        return g
-    })
-    GROUPS = newGROUPS
-    return GROUPS.filter(g => g.id == groupId)[0]
-}
-
-export async function deleteGroup(groupId) {
-    const newGROUPS = GROUPS.filter(g => {
-        g.id != groupId
-    })
-    GROUPS = newGROUPS
-    return true
-}
-
-export async function addEventToGroup(groupId, event) {
-    const newGROUPS = GROUPS.map(g => {
-        if (g.id == groupId) {
-            g.events.push(event)
+        GROUPS.push(group)
+        return group
+    }
+    
+    async function editGroup(group) {
+        const groupId = group.id
+        const newGROUPS = GROUPS.map( g => {
+            if (g.id == groupId) {
+                return group
+            }
             return g
-        }
-        return g
-    })
-    GROUPS = newGROUPS
-    return true
+        })
+        GROUPS = newGROUPS
+        return GROUPS.filter(g => g.id == groupId)[0]
+    }
+    
+    async function deleteGroup(groupId) {
+        const newGROUPS = GROUPS.filter(g => {
+            g.id != groupId
+        })
+        GROUPS = newGROUPS
+        return true
+    }
+    
+    async function addEventToGroup(groupId, event) {
+        const newGROUPS = GROUPS.map(g => {
+            if (g.id == groupId) {
+                g.events.push(event)
+                return g
+            }
+            return g
+        })
+        GROUPS = newGROUPS
+        return true
+    }
+    
+    async function deleteEventFromGroup(groupId, eventId) {
+        const event = GROUPS.filter(g => g.id == groupId)[0].events.filter(e => e.id == eventId)[0]
+        if (!event || event.length < 1) throw errors.NOT_FOUND("Event")
+        const oldGroup = await getGroup(groupId)
+        const newEventList = oldGroup.events.filter(e => {
+            e.id != eventId
+        })
+        const newGROUPS = GROUPS.map(g => {
+            if (g.id == groupId) {
+                g.events = newEventList
+                return g
+            }
+            return g
+        })
+        GROUPS = newGROUPS
+        return true
+    }
 }
 
-export async function deleteEventFromGroup(groupId, eventId) {
-    const event = GROUPS.filter(g => g.id == groupId)[0].events.filter(e => e.id == eventId)[0]
-    if (!event || event.length < 1) throw errors.NOT_FOUND("Event")
-    const oldGroup = await getGroup(groupId)
-    const newEventList = oldGroup.events.filter(e => {
-        e.id != eventId
-    })
-    const newGROUPS = GROUPS.map(g => {
-        if (g.id == groupId) {
-            g.events = newEventList
-            return g
-        }
-        return g
-    })
-    GROUPS = newGROUPS
-    return true
-}
+

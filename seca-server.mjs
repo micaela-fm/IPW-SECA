@@ -13,6 +13,8 @@ import initUsersServices from "./services/seca-users-services.mjs"
 //import * as secaGroupsServices from "./services/seca-groups-services.mjs"
 //import * as secaUsersServices from "./services/seca-users-services.mjs"
 import apiInit from "./api/seca-web-api.mjs"
+// import secaDataInit from "./data/seca-data-mem.mjs"
+import secaDataInit from "./data/seca-data-db.mjs"
 
 
 // Reading content from yaml doc
@@ -21,9 +23,11 @@ const swaggerDocument = yaml.load("./seca-api.yaml")
 const PORT = 3000
 
 // Initializing secaServices and api
-const secaGroupsServices = initGroupsServices(null)
-const secaUsersServices = initUsersServices(null)
+const secaData = secaDataInit()
+const secaUsersServices = initUsersServices(secaData)
+const secaGroupsServices = initGroupsServices(secaUsersServices, secaData)
 const api = apiInit(secaEventsServices, secaGroupsServices, secaUsersServices)
+
 
 // Creating and initializing the Express application
 console.log("Starting server set up")
