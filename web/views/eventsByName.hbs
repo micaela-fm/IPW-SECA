@@ -5,6 +5,15 @@
     </head>
     <body>
         <h1>The Events That Match Your Keyword:</h1>
-        <p>...</p>
+        <ul>
+        {{#each events}}
+            <li>
+                <h2>{{name}}</h2>
+                <p><strong>ID:</strong> {{id}}</p>
+                <p><strong>Date:</strong> {{date}}</p>
+                <p><strong>Venue:</strong> {{venue.name}} - {{venue.city}}, {{venue.country}}</p>
+            </li>
+        {{/each}}
+    </ul>
     </body>
 </html>
