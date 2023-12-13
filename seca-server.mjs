@@ -14,6 +14,7 @@ import initUsersServices from "./services/seca-users-services.mjs"
 //import * as secaGroupsServices from "./services/seca-groups-services.mjs"
 //import * as secaUsersServices from "./services/seca-users-services.mjs"
 import apiInit from "./web/seca-web-api.mjs"
+import siteInit from "./web/site/seca-web-site.mjs"
 // import secaDataInit from "./data/seca-data-mem.mjs"
 import secaDataInit from "./data/seca-data-db.mjs"
 
@@ -28,6 +29,7 @@ const secaData = secaDataInit()
 const secaUsersServices = initUsersServices(secaData)
 const secaGroupsServices = initGroupsServices(secaUsersServices, secaData)
 const api = apiInit(secaEventsServices, secaGroupsServices, secaUsersServices)
+const site = siteInit(secaEventsServices, secaGroupsServices, secaUsersServices)
 
 
 // Creating and initializing the Express application
