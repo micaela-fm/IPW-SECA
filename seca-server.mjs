@@ -5,6 +5,7 @@ import express from "express"
 import swaggerUi from "swagger-ui-express"
 import yaml from "yamljs"
 import cors from "cors"
+import hbs from "hbs"
 
 // Importing internal modules
 import * as secaEventsServices from "./services/seca-events-services.mjs"
@@ -12,7 +13,7 @@ import initGroupsServices from "./services/seca-groups-services.mjs"
 import initUsersServices from "./services/seca-users-services.mjs"
 //import * as secaGroupsServices from "./services/seca-groups-services.mjs"
 //import * as secaUsersServices from "./services/seca-users-services.mjs"
-import apiInit from "./api/seca-web-api.mjs"
+import apiInit from "./web/seca-web-api.mjs"
 // import secaDataInit from "./data/seca-data-mem.mjs"
 import secaDataInit from "./data/seca-data-db.mjs"
 
@@ -36,9 +37,29 @@ const app = express()
 app.use(cors())
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 app.use(express.json())
+app.set('view engine', 'hbs')
+app.set('views', path.join(__dirname, 'views'))
+
+// HTTP Site Routes
+app.get("/seca/events", api.searchEvents)
+
+app.get("/seca/events/popular", api.getPopularEvents)
+
+app.get("/seca/groups", api.listGroups)
+app.post("/seca/groups", api.createGroup)
+
+app.get("/seca/groups/:id", api.getGroupDetails)
+app.put("/seca/groups/:id", api.editGroup)
+app.delete("/seca/groups/:id", api.deleteGroup)
+
+app.post("/seca/groups/:id/events", api.addEvent)
+
+app.delete("/seca/groups/:id/events/:eventId", api.removeEvent)
+
+app.post("/seca/users", api.createUser)
 
 // Registering all HTTP api routes
-app.get("/events", api.searchEvents)
+/* app.get("/events", api.searchEvents)
 
 app.get("/events/popular", api.getPopularEvents)
 
@@ -53,7 +74,7 @@ app.post("/groups/:id/events", api.addEvent)
 
 app.delete("/groups/:id/events/:eventId", api.removeEvent)
 
-app.post("/users", api.createUser)
+app.post("/users", api.createUser) */
 
 app.listen(PORT, () => console.log(`Server listening in http://localhost:${PORT}`))
 
