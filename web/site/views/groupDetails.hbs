@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Get Group Details</title>
+    </head>
+    <body>
+        <h1>Group 1 Details</h1>
+        <p><strong>Name:</strong> {{name}}</p>
+        <p><strong>Description:</strong> {{description}}</p>
+        <p><strong>Events:</strong></p>
+            {{#each events}}
+            <li>
+                <h2>{{this.name}}</h2>
+                <p><strong>ID:</strong> {{this.id}}</p>
+                <p><strong>Date:</strong> {{this.date}}</p>
+                <p><strong>Venue:</strong> {{this.venue.name}} - {{this.venue.city}}, {{this.venue.country}}</p>
+            </li>
+            {{/each}}
+    </body>
+</html>

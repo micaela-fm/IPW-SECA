@@ -6,6 +6,8 @@ import swaggerUi from "swagger-ui-express"
 import yaml from "yamljs"
 import cors from "cors"
 import hbs from "hbs"
+import path from "path"
+import url from "url"
 
 // Importing internal modules
 import * as secaEventsServices from "./services/seca-events-services.mjs"
@@ -39,8 +41,12 @@ const app = express()
 app.use(cors())
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 app.use(express.json())
+
+// Handlebars view engine setup
+const currentFileDir = url.fileURLToPath(new URL('.', import.meta.url))
+const viewsDir = path.join(currentFileDir, 'web', 'site', 'views')
 app.set('view engine', 'hbs')
-app.set('views', path.join(__dirname, 'views'))
+app.set('views', viewsDir)
 
 // HTTP Site Routes
 app.get("/seca/events", site.searchEvents)

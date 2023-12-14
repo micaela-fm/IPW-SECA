@@ -80,7 +80,7 @@ export default function (secaEventsServices, secaGroupsServices, secaUsersServic
   // Get the details of a group
   async function _getGroupDetails(req, rsp) {
     const groupId = req.params.id
-    const group = await secaGroupsServices.getGroup(groupId, req.token)
+    // const group = await secaGroupsServices.getGroup(groupId, req.token)
     var html = 
         `<!DOCTYPE html>
         <html>
@@ -88,9 +88,9 @@ export default function (secaEventsServices, secaGroupsServices, secaUsersServic
                 Group details
             </head>
             <body>
-                <p>Name: ${group.name}</p>
-                <p>Description: ${group.description}</p>
-                <p>Events: ${group.events}</p>
+                <p>Name: {group.name}</p>
+                <p>Description: {group.description}</p>
+                <p>Events: {group.events}</p>
             </body>
         </html>`
     rsp.type('html')
