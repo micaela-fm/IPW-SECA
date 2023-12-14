@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Group Edited</title>
+    </head>
+    <body>
+        <h1>Edited Group Details</h1>
+        <p><strong>Name:</strong> {{newGroup.name}}</p>
+        <p><strong>Description:</strong> {{newGroup.description}}</p>
+        <p><strong>Events:</strong></p>
+        {{#each newGroup.events}}
+        <div>
+            <h2>{{this.name}}</h2>
+            <p><strong>ID:</strong> {{this.id}}</p>
+            <p><strong>Date:</strong> {{this.date}}</p>
+            <p><strong>Venue:</strong> {{this.venue.name}} - {{this.venue.city}}, {{this.venue.country}}</p>
+        </div>
+        {{/each}}
+    </body>
+</html>

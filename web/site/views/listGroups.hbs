@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{user.name}}'s Groups</title>
+    </head>
+    <body>
+        <h1>Group List</h1>
+        {{#each groups}}
+        <div>
+            <h2>{{this.name}}</h2>
+            <p><strong>Description:</strong> {{this.description}}</p>
+            <p><strong>Events:</strong></p>
+            {{#each this.events}}
+            <div>
+                <h3>{{this.name}}</h3>
+                <p><strong>ID:</strong> {{this.id}}</p>
+                <p><strong>Date:</strong> {{this.date}}</p>
+                <p><strong>Venue:</strong> {{this.venue.name}} - {{this.venue.city}}, {{this.venue.country}}</p>
+            </div>
+            {{/each}}
+        </div>
+        {{/each}}
+    </body>
+</html>
