@@ -76,13 +76,25 @@ export default function (secaEventsServices, secaGroupsServices, secaUsersServic
     rsp.json(`Group ${groupId} deleted`)
   }
 
+  // NOT WORKING, 'user not found'
   // Get the details of a group
   async function _getGroupDetails(req, rsp) {
     const groupId = req.params.id
     const group = await secaGroupsServices.getGroup(groupId, req.token)
-    if (group)
-      return rsp.json(group)
-    rsp.status(404).json(`Group ${groupId} not found`)
+    var html = 
+        `<!DOCTYPE html>
+        <html>
+            <head>
+                Group details
+            </head>
+            <body>
+                <p>Name: ${group.name}</p>
+                <p>Description: ${group.description}</p>
+                <p>Events: ${group.events}</p>
+            </body>
+        </html>`
+    rsp.type('html')
+    rsp.send(html)
   }
 
   // Add a event to a group
@@ -133,15 +145,20 @@ export default function (secaEventsServices, secaGroupsServices, secaUsersServic
     }
   }
 
+  // temp test version
   function getToken(req) {
-    const BEARER_STR = "Bearer "
-    const tokenHeader = req.get("Authorization")
-    if (!(tokenHeader && tokenHeader.startsWith(BEARER_STR) && tokenHeader.length > BEARER_STR.length)) {
-      return null
-    }
-    req.token = tokenHeader.split(" ")[1]
-    return req.token
+    return req.token = "3eac1b5d-1386-4ecd-a831-656c75c410f0"
   }
+
+  // function getToken(req) {
+  //   const BEARER_STR = "Bearer "
+  //   const tokenHeader = req.get("Authorization")
+  //   if (!(tokenHeader && tokenHeader.startsWith(BEARER_STR) && tokenHeader.length > BEARER_STR.length)) {
+  //     return null
+  //   }
+  //   req.token = tokenHeader.split(" ")[1]
+  //   return req.token
+  // }
 }
 
 

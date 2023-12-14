@@ -13,7 +13,7 @@ import initGroupsServices from "./services/seca-groups-services.mjs"
 import initUsersServices from "./services/seca-users-services.mjs"
 //import * as secaGroupsServices from "./services/seca-groups-services.mjs"
 //import * as secaUsersServices from "./services/seca-users-services.mjs"
-import apiInit from "./web/seca-web-api.mjs"
+import apiInit from "./web/api/seca-web-api.mjs"
 import siteInit from "./web/site/seca-web-site.mjs"
 // import secaDataInit from "./data/seca-data-mem.mjs"
 import secaDataInit from "./data/seca-data-db.mjs"
@@ -43,22 +43,22 @@ app.set('view engine', 'hbs')
 app.set('views', path.join(__dirname, 'views'))
 
 // HTTP Site Routes
-app.get("/seca/events", api.searchEvents)
+app.get("/seca/events", site.searchEvents)
 
-app.get("/seca/events/popular", api.getPopularEvents)
+app.get("/seca/events/popular", site.getPopularEvents)
 
-app.get("/seca/groups", api.listGroups)
-app.post("/seca/groups", api.createGroup)
+app.get("/seca/groups", site.listGroups)
+app.post("/seca/groups", site.createGroup)
 
-app.get("/seca/groups/:id", api.getGroupDetails)
-app.put("/seca/groups/:id", api.editGroup)
-app.delete("/seca/groups/:id", api.deleteGroup)
+app.get("/seca/groups/:id", site.getGroupDetails)
+app.put("/seca/groups/:id", site.editGroup)
+app.delete("/seca/groups/:id", site.deleteGroup)
 
-app.post("/seca/groups/:id/events", api.addEvent)
+app.post("/seca/groups/:id/events", site.addEvent)
 
-app.delete("/seca/groups/:id/events/:eventId", api.removeEvent)
+app.delete("/seca/groups/:id/events/:eventId", site.removeEvent)
 
-app.post("/seca/users", api.createUser)
+app.post("/seca/users", site.createUser)
 
 // Registering all HTTP api routes
 /* app.get("/events", api.searchEvents)
