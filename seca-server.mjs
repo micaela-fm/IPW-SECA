@@ -17,16 +17,20 @@ import initUsersServices from "./services/seca-users-services.mjs"
 //import * as secaUsersServices from "./services/seca-users-services.mjs"
 import apiInit from "./web/api/seca-web-api.mjs"
 import siteInit from "./web/site/seca-web-site.mjs"
-// import secaDataInit from "./data/seca-data-mem.mjs"
-import secaDataInit from "./data/seca-data-db.mjs"
+import secaDataInit from "./data/seca-data-mem.mjs"
+// import secaDataInit from "./data/seca-data-db.mjs"
 
 
 // Reading content from yaml doc
 const swaggerDocument = yaml.load("./seca-api.yaml")
-// Reading port number from .env file
+
+// TODO: Reading port number from .env file
+// import dotenv from 'dotenv'
+// dotenv.config({ path: './.env' })
+// const PORT = process.env.PORT
 const PORT = 3000
 
-// Initializing secaServices and api
+// Initializing secaServices, api and site
 const secaData = secaDataInit()
 const secaUsersServices = initUsersServices(secaData)
 const secaGroupsServices = initGroupsServices(secaUsersServices, secaData)
@@ -66,8 +70,8 @@ app.delete("/seca/groups/:id/events/:eventId", site.removeEvent)
 
 app.post("/seca/users", site.createUser)
 
-// Registering all HTTP api routes
-/* app.get("/events", api.searchEvents)
+// HTTP API Routes
+app.get("/events", api.searchEvents)
 
 app.get("/events/popular", api.getPopularEvents)
 
@@ -82,10 +86,10 @@ app.post("/groups/:id/events", api.addEvent)
 
 app.delete("/groups/:id/events/:eventId", api.removeEvent)
 
-app.post("/users", api.createUser) */
+app.post("/users", api.createUser) 
+
 
 app.listen(PORT, () => console.log(`Server listening in http://localhost:${PORT}`))
-
 console.log("Ending server set up")
 
 export default app

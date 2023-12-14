@@ -28,7 +28,7 @@ export default function (secaEventsServices, secaGroupsServices, secaUsersServic
     const size = req.query.size
     const page = req.query.page
     const events = await secaEventsServices.getPopularEvents(size, page)
-    return rsp.render('popularEvents', events)
+    rsp.render('popularEvents', { events: events })
   }
 
   // Search events by name
@@ -80,21 +80,8 @@ export default function (secaEventsServices, secaGroupsServices, secaUsersServic
   // Get the details of a group
   async function _getGroupDetails(req, rsp) {
     const groupId = req.params.id
-    // const group = await secaGroupsServices.getGroup(groupId, req.token)
-    var html = 
-        `<!DOCTYPE html>
-        <html>
-            <head>
-                Group details
-            </head>
-            <body>
-                <p>Name: {group.name}</p>
-                <p>Description: {group.description}</p>
-                <p>Events: {group.events}</p>
-            </body>
-        </html>`
-    rsp.type('html')
-    rsp.send(html)
+    const group = await secaGroupsServices.getGroup(groupId, req.token)
+    rsp.render('groupDetails', { group: group })
   }
 
   // Add a event to a group
