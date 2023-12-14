@@ -48,7 +48,7 @@ export default function (secaEventsServices, secaGroupsServices, secaUsersServic
     }
 
     const group = await secaGroupsServices.createGroup(newGroup, req.token)
-    rsp.status(201).json(group)
+    rsp.render('createGroup', { group: group })
   }
 
   // Edit group by changing its name and description

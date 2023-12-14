@@ -57,18 +57,18 @@ app.get("/seca/events", site.searchEvents)
 
 app.get("/seca/events/popular", site.getPopularEvents)
 
-app.get("/seca/groups", site.listGroups)
-app.post("/seca/groups", site.createGroup)
+app.get("/seca/groups", site.listGroups) // TODO
+app.post("/seca/groups", site.createGroup) // TODO
 
 app.get("/seca/groups/:id", site.getGroupDetails)
-app.put("/seca/groups/:id", site.editGroup)
-app.delete("/seca/groups/:id", site.deleteGroup)
+app.put("/seca/groups/:id", site.editGroup) // TODO
+app.delete("/seca/groups/:id", site.deleteGroup) // TODO
 
-app.post("/seca/groups/:id/events", site.addEvent)
+app.post("/seca/groups/:id/events", site.addEvent) // TODO
 
-app.delete("/seca/groups/:id/events/:eventId", site.removeEvent)
+app.delete("/seca/groups/:id/events/:eventId", site.removeEvent) // TODO
 
-app.post("/seca/users", site.createUser)
+app.post("/seca/users", site.createUser) // TODO
 
 // HTTP API Routes
 app.get("/events", api.searchEvents)
