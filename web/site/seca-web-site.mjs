@@ -37,7 +37,7 @@ export default function (secaEventsServices, secaGroupsServices, secaUsersServic
     const size = req.query.size
     const page = req.query.page
     const events = await secaEventsServices.getEventsByName(keyword, size, page)
-    return rsp.render('eventsByName', events)
+    rsp.render('eventsByName', { events: events })
   }
 
   // Create group providing its name and description
