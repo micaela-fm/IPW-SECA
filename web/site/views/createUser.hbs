@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>User Creation</title>
+    </head>
+    <body>
+        <h1>User Creation</h1>
+        {{#if user}}
+        <p>User {{user.name}} has been created. Your user token is {{user.token}}.</p>
+        {{else}}
+        <p>User already exists.</p>
+        {{/if}}
+    </body>
+</html>
