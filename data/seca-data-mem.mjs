@@ -1,7 +1,7 @@
 import crypto from 'node:crypto'
 import errors from '../common/errors.mjs'
 
-let USERS = [
+export let USERS = [
     {
         id: 1,
         name: "Noemi Ferreira",
@@ -19,7 +19,7 @@ let USERS = [
     }
 ]
 
-let GROUPS = [
+export let GROUPS = [
     {
         id: 1,
         name: "Best events ever",

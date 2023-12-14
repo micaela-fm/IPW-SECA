@@ -1,5 +1,5 @@
 // Dependencies
-import errorToHttp from './errors-to-http-responses.mjs'
+import errorToHttp from '../errors-to-http-responses.mjs'
 import errors from '../../common/errors.mjs'
 
 export default function (secaEventsServices, secaGroupsServices, secaUsersServices) {

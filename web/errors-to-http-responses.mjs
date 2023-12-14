@@ -1,4 +1,4 @@
-import { ERROR_CODES } from '../../common/errors.mjs'
+import { ERROR_CODES } from '../common/errors.mjs'
 
 function HttpResponse(status, error) {
     this.status = status
