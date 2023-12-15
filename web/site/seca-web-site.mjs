@@ -28,7 +28,7 @@ export default function (secaEventsServices, secaGroupsServices, secaUsersServic
     const size = req.query.size
     const page = req.query.page
     const events = await secaEventsServices.getPopularEvents(size, page)
-    rsp.render('popularEvents', { events: events })
+    rsp.render('popularEvents', { events })
   }
 
   // Search events by name
@@ -37,7 +37,7 @@ export default function (secaEventsServices, secaGroupsServices, secaUsersServic
     const size = req.query.size
     const page = req.query.page
     const events = await secaEventsServices.getEventsByName(keyword, size, page)
-    rsp.render('eventsByName', { events: events })
+    rsp.render('eventsByName', events)
   }
 
   // Create group providing its name and description
@@ -48,7 +48,7 @@ export default function (secaEventsServices, secaGroupsServices, secaUsersServic
     }
 
     const group = await secaGroupsServices.createGroup(newGroup, req.token)
-    rsp.render('createGroup', { group: group })
+    rsp.render('createGroup', { group })
   }
 
   // Edit group by changing its name and description
@@ -66,7 +66,7 @@ export default function (secaEventsServices, secaGroupsServices, secaUsersServic
   // List all groups
   async function _listAllGroups(req, rsp) {
     const groups = await secaGroupsServices.getAllGroups(req.token)
-    rsp.render('listGroups', { groups: groups })
+    rsp.render('listGroups', { groups })
   }
 
   // Delete a group
@@ -81,7 +81,7 @@ export default function (secaEventsServices, secaGroupsServices, secaUsersServic
   async function _getGroupDetails(req, rsp) {
     const groupId = req.params.id
     const group = await secaGroupsServices.getGroup(groupId, req.token)
-    rsp.render('groupDetails', { group: group })
+    rsp.render('groupDetails', { group })
   }
 
   // Add a event to a group

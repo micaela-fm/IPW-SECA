@@ -1,7 +1,7 @@
 import crypto from 'node:crypto'
 import errors from '../common/errors.mjs'
-import USERS from './seca-data-mem.mjs'
-import GROUPS from './seca-data-mem.mjs'
+import USERS from './seca-data-mem.mjs' // temp to avoid error
+import GROUPS from './seca-data-mem.mjs' // temp to avoid error
 
 let nextUserId = USERS.length >= 1 ? USERS[USERS.length - 1].id + 1 : 1
 
