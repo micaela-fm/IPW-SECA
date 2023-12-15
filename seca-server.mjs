@@ -37,14 +37,16 @@ const secaGroupsServices = initGroupsServices(secaUsersServices, secaData)
 const api = apiInit(secaEventsServices, secaGroupsServices, secaUsersServices)
 const site = siteInit(secaEventsServices, secaGroupsServices, secaUsersServices)
 
-
 // Creating and initializing the Express application
 console.log("Starting server set up")
 const app = express()
 
+// Initializing middleware
 app.use(cors())
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 app.use(express.json())
+
+// Documentation
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 
 // Handlebars view engine setup
 const currentFileDir = url.fileURLToPath(new URL('.', import.meta.url))
@@ -54,41 +56,35 @@ app.set('views', viewsDir)
 
 // HTTP Site Routes
 app.get("/seca/events", site.searchEvents)
-
 app.get("/seca/events/popular", site.getPopularEvents)
 
-app.get("/seca/groups", site.listGroups) // TODO
+app.get("/seca/groups", site.listGroups)
 app.post("/seca/groups", site.createGroup) // TODO
-
 app.get("/seca/groups/:id", site.getGroupDetails)
 app.put("/seca/groups/:id", site.editGroup) // TODO
 app.delete("/seca/groups/:id", site.deleteGroup) // TODO
 
 app.post("/seca/groups/:id/events", site.addEvent) // TODO
-
 app.delete("/seca/groups/:id/events/:eventId", site.removeEvent) // TODO
 
 app.post("/seca/users", site.createUser) // TODO
 
+
 // HTTP API Routes
 app.get("/events", api.searchEvents)
-
 app.get("/events/popular", api.getPopularEvents)
 
 app.get("/groups", api.listGroups)
 app.post("/groups", api.createGroup)
-
 app.get("/groups/:id", api.getGroupDetails)
 app.put("/groups/:id", api.editGroup)
 app.delete("/groups/:id", api.deleteGroup)
-
 app.post("/groups/:id/events", api.addEvent)
-
 app.delete("/groups/:id/events/:eventId", api.removeEvent)
 
 app.post("/users", api.createUser) 
 
-
+// Setting and logging server listening port
 app.listen(PORT, () => console.log(`Server listening in http://localhost:${PORT}`))
 console.log("Ending server set up")
 

@@ -66,7 +66,7 @@ export default function (secaEventsServices, secaGroupsServices, secaUsersServic
   // List all groups
   async function _listAllGroups(req, rsp) {
     const groups = await secaGroupsServices.getAllGroups(req.token)
-    rsp.json(groups)
+    rsp.render('listGroups', { groups: groups })
   }
 
   // Delete a group
