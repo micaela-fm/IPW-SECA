@@ -37,7 +37,7 @@ export default function (secaEventsServices, secaGroupsServices, secaUsersServic
     const size = req.query.size
     const page = req.query.page
     const events = await secaEventsServices.getEventsByName(keyword, size, page)
-    rsp.render('eventsByName', events)
+    rsp.render('eventsByName', {events})
   }
 
   // Create group providing its name and description
@@ -60,7 +60,7 @@ export default function (secaEventsServices, secaGroupsServices, secaUsersServic
     }
 
     const group = await secaGroupsServices.editGroup(groupId, newGroup, req.token)
-    rsp.json(group)
+    rsp.render('editGroup', {group})
   }
 
   // List all groups
@@ -73,7 +73,7 @@ export default function (secaEventsServices, secaGroupsServices, secaUsersServic
   async function _deleteGroup(req, rsp) {
     const groupId = req.params.id
     const group = await secaGroupsServices.deleteGroup(groupId, req.token)
-    rsp.json(`Group ${groupId} deleted`)
+    rsp.render('deleteGroup', {group})
   }
 
   // NOT WORKING, 'user not found'
@@ -89,7 +89,7 @@ export default function (secaEventsServices, secaGroupsServices, secaUsersServic
     const groupId = req.params.id
     const eventId = req.body.eventId
     const event = await secaGroupsServices.addEventToGroup(groupId, eventId, req.token)
-    rsp.json(`Event added to group ${groupId}`)
+    rsp.render('addEvent', {group, event})
   }
 
   // Remove an event from a group
@@ -97,17 +97,14 @@ export default function (secaEventsServices, secaGroupsServices, secaUsersServic
     const groupId = req.params.id
     const eventId = req.params.eventId
     const event = await secaGroupsServices.deleteEventFromGroup(groupId, eventId, req.token)
-    rsp.json(`Event removed from group ${groupId}`)
+    rsp.render('deleteGroup', {group})
   }
 
   // Create new user, given its username
   async function _createUser(req, rsp) {
     const userName = req.body.name
     const user = await secaUsersServices.insertUser(userName)
-    if (user) {
-      return rsp.status(201).json({ "user-token": user.token })
-    }
-    rsp.status(400).json("User already exists")
+    rsp.render('createUser', {user})
   }
 
 
