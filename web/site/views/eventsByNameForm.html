@@ -8,8 +8,8 @@
         <h1>Search Events</h1>
         <form method="GET" action="/seca/events">
             <p>Event name: <input type="text" name="keyword" required></p>
-            <p>Result size: <input type="number" name="size" min="1"></p>
-            <p>Result page: <input type="number" name="page" min="1"></p>
+            <p>Result size: <input type="number" name="size" min="1" value="30"></p>
+            <p>Result page: <input type="number" name="page" min="1" value="1"></p>
             <input type="submit" value="Search Events">
         </form>
         <p><button onclick="location.href='/seca/home.html'">Return to Homepage</button></p>
