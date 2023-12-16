@@ -5,7 +5,7 @@
     </head>
     <body>
         <h1>Edit Group</h1>
-        <form method="POST" action="/seca/groups/:id/edit">
+        <form method="POST" action="/seca/groups/{{group.id}}/edit">
             <p>New Name: <input type="text" name="name" required></p> 
             <p>New Description: <input type="text" name="description" required></p>
             <input type="submit" value="Edit and list groups">

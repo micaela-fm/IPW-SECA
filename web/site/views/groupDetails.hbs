@@ -5,9 +5,11 @@
     </head>
     <body>
         <h1>Group Details</h1>
-        <p><button onclick="location.href='/seca/editGroupForm.html'">Edit group</button>
-        <button onclick="location.href='/seca/groups/{{id}}'">Delete group</button>
+        <p><button onclick="location.href='/seca/groups'">Return to group list</button>
         <button onclick="location.href='/seca/home.html'">Return to homepage</button></p>
+        <button onclick="location.href='/seca/groups/{{group.id}}/edit'">Edit group</button> 
+        <button onclick="location.href='/seca/groups/{{group.id}}'">Delete group</button></p>
+
         <p><strong>Name:</strong> {{group.name}}</p>
         <p><strong>Description:</strong> {{group.description}}</p>
         <p><strong>Events:</strong></p>
