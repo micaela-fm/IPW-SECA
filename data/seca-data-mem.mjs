@@ -29,7 +29,7 @@ export let GROUPS = [
             {
                 "id": "G5v0Z9YcKe8Bi",
                 "name": "Phoenix Suns vs. Orlando Magic",
-                "date": "2024-01-01T01:00:00Z",
+                "date": "2024-01-01 at 01:00 UTC",
                 "venue": {
                     "name": "Footprint Center",
                     "country": "United States Of America",
