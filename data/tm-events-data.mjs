@@ -3,13 +3,14 @@ const apiKey = 'ScS7GANgbw2KFur1iOp7dpQME1gAdieS';
 
 export async function getEventsByName(keyword, size, page) {
     const rsp = await fetch(`${partialURL}?apikey=${apiKey}&keyword=${keyword}&size=${size}&page=${page}`)
-        .then(r => r.json());
+        .then(r => r.json())
 
-    if (rsp._embedded.events != null) {
-        const events = processResults(rsp._embedded.events)
-        return events
+    if(!rsp.hasOwnProperty("_embedded")) {
+        return []
     }
-    return []
+
+    const events = processResults(rsp._embedded.events)
+    return events
 }
 
 export async function getPopularEvents(size, page) {

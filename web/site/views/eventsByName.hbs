@@ -6,19 +6,23 @@
     <body>
         <h1>The Events That Match Your Keyword:</h1>
         <p>
-            <button onclick="location.href='/seca/eventsByNameForm.html'">Return Search Events</button>
+            <button onclick="location.href='/seca/eventsByNameForm.html'">Return to Search Events</button>
             <button onclick="location.href='/seca/home.html'">Return to Homepage</button>
         </p>
-        <ol>
-        {{#each events}}
-            <li>
-                <h2>{{name}}</h2>
-                <p><strong>ID:</strong> {{id}}</p>
-                <p><strong>Date:</strong> {{date}}</p>
-                <p><strong>Venue:</strong> {{venue.name}} - {{venue.city}}, {{venue.country}}</p>
-            </li>
-        {{/each}}
-        </ol>
+        {{#unless events}}
+            <p>No events found.</p>
+        {{else}}
+            <ol>
+            {{#each events}}
+                <li>
+                    <h2>{{name}}</h2>
+                    <p><strong>ID:</strong> {{id}}</p>
+                    <p><strong>Date:</strong> {{date}}</p>
+                    <p><strong>Venue:</strong> {{venue.name}} - {{venue.city}}, {{venue.country}}</p>
+                </li>
+            {{/each}}
+            </ol>
+        {{/unless}}
         <p>
             <button onclick="location.href='/seca/eventsByNameForm.html'">Return Search Events</button>
             <button onclick="location.href='/seca/home.html'">Return to Homepage</button>

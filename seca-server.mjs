@@ -62,12 +62,12 @@ app.get("/seca/events/popular", site.getPopularEvents)
 
 app.get("/seca/groups", site.listGroups)
 app.post("/seca/groups", site.createGroup)
-app.get("/seca/groups/:id", site.getGroupDetails) // TODO
-app.put("/seca/groups/:id", site.editGroup) // TODO
-app.delete("/seca/groups/:id", site.deleteGroup) // TODO
+app.get("/seca/groups/:id", site.getGroupDetails) 
+app.post("/seca/groups/:id/edit", site.editGroup) 
+app.post("/seca/groups/:id/delete", site.deleteGroup) 
 
-app.post("/seca/groups/:id/events", site.addEvent) // TODO
-app.delete("/seca/groups/:id/events/:eventId", site.removeEvent) // TODO
+app.post("/seca/groups/:id/events", site.addEvent) 
+app.delete("/seca/groups/:id/events/:eventId", site.removeEvent) 
 
 app.post("/seca/users", site.createUser) // TODO
 

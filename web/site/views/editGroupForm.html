@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Edit Group</title>
+    </head>
+    <body>
+        <h1>Edit Group</h1>
+        <form method="POST" action="/seca/groups/:id/edit">
+            <p>New Name: <input type="text" name="name" required></p> 
+            <p>New Description: <input type="text" name="description" required></p>
+            <input type="submit" value="Edit and list groups">
+        </form>
+        <p><button onclick="location.href='/seca/groups'">List groups</button>
+        <button onclick="location.href='/seca/home.html'">Return to homepage</button></p>
+    </body>
+</html>
