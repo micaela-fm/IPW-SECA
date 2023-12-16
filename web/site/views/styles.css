@@ -24,3 +24,7 @@ a:hover {
 .title-label {
     color: #6ed6dd;
 }
+
+ul {
+    list-style: none;
+    }
