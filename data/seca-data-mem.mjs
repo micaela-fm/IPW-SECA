@@ -23,7 +23,7 @@ export let GROUPS = [
     {
         id: 1,
         name: "Best events ever",
-        description: "These are the best events ever",
+        description: "user1 These are the best events ever",
         userId: 1,
         events: [
             {
@@ -38,6 +38,25 @@ export let GROUPS = [
             }
         ]
     }, 
+    {
+        id: 2,
+        name: "Best events ever",
+        description: "user2 These are the best events ever",
+        userId: 2,
+        events: [
+            {
+                "id": "G5v0Z9YcKe8Bi",
+                "name": "Phoenix Suns vs. Orlando Magic",
+                "date": "2024-01-01 at 01:00 UTC",
+                "venue": {
+                    "name": "Footprint Center",
+                    "country": "United States Of America",
+                    "city": "Phoenix"
+                }
+            }
+        ]
+    },
+    
 ]
 
 let nextUserId = USERS.length >= 1 ? USERS[USERS.length - 1].id + 1 : 1
@@ -89,6 +108,12 @@ export default function () {
         if (!group) throw errors.NOT_FOUND("Group")
         return group
     }
+
+    // async function getGroup(groupName) {
+    //     const group = GROUPS.find (g => g.name == groupName)
+    //     if (!group) throw errors.NOT_FOUND("Group")
+    //     return group
+    // }
     
     async function createGroup(newGroup) {
         const group = {

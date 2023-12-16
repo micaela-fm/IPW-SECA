@@ -59,7 +59,8 @@ export default function (secaEventsServices, secaGroupsServices, secaUsersServic
     }
 
     const group = await secaGroupsServices.editGroup(groupId, newGroup, req.token)
-    rsp.render('editGroup', {group})
+    // rsp.render('editGroup', {group})^
+    rsp.redirect('groups')
   }
 
   // List all groups
@@ -75,7 +76,6 @@ export default function (secaEventsServices, secaGroupsServices, secaUsersServic
     rsp.render('deleteGroup', {group})
   }
 
-  // NOT WORKING, 'user not found'
   // Get the details of a group
   async function _getGroupDetails(req, rsp) {
     const groupId = req.params.id
