@@ -39,10 +39,13 @@ function processResults(results) {
 }
 
 function standardEventDetails(data) {
+    const date = String(data.dates.start.dateTime)
+    const day = date.split("T")[0]
+    const time = date.split("T")[1].slice(0, 5)
     const event = {
         "id": data.id,
         "name": data.name,
-        "date": data.dates.start.dateTime,
+        "date": day.concat(" at ").concat(time).concat(" UTC"),
         "venue": {
             "name": data._embedded.venues[0].name,
             "country": data._embedded.venues[0].country.name,
