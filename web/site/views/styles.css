@@ -5,6 +5,7 @@ body {
 }
 h1 {
     color: #9c0404; 
+    text-shadow: 2px 2px 4px black;
 }
 h2 {
     color: #ea9fc7; 
@@ -32,4 +33,12 @@ button, input[type="submit"] {
     background-color: black;
     border: 1px solid #9c0404; 
     color: #ea9fc7;
+}
+input[type="number"] {
+    width: 50px; 
+    text-align: center; 
+    padding: 8px;
+}
+input[type="text"] {
+    padding: 8px;
 }
