@@ -1,0 +1,35 @@
+body {
+    background-color: #1E1E1E; 
+    color: white;
+    font-family: 'Roboto', sans-serif; /* Changing the font to Roboto */
+}
+h1 {
+    color: #9c0404; 
+}
+h2 {
+    color: #ea9fc7; 
+    
+}
+h3 {
+    color: #e0eaa4; 
+}
+a {
+    color: white; 
+    text-decoration: none; 
+}
+a:hover {
+    text-decoration: underline; /* Underline on hover */
+    color: #9c0404; /* Change color to darker red on hover */
+}
+.title-label {
+    color: #6ed6dd;
+}
+
+ul {
+    list-style: none;
+}
+button, input[type="submit"] {
+    background-color: black;
+    border: 1px solid #9c0404; 
+    color: #ea9fc7;
+}

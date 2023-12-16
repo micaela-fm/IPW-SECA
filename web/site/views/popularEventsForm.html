@@ -2,12 +2,13 @@
 <html>
     <head>
         <title>Get Popular Events</title>
+        <link rel="stylesheet" href="styles.css">
     </head>
     <body>
         <h1>Get Popular Events</h1>
         <form method="GET" action="/seca/events/popular">
-            <p>Result size: <input type="number" name="size" min="1"></p>
-            <p>Result page: <input type="number" name="page" min="1"></p>
+            <p>Result size: <input type="number" name="size" min="1" value="30"></p>
+            <p>Result page: <input type="number" name="page" min="1" value="1"></p>
             <input type="submit" value="Get Popular Events">
         </form>
         <p><button onclick="location.href='/seca/home.html'">Return to Homepage</button></p>
