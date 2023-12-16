@@ -6,19 +6,20 @@
     <body>
         <h1>Group List</h1>
         {{#each groups}}
-        <div>
+        <section>
             <h2>{{name}}</h2>
             <p><strong>Description:</strong> {{description}}</p>
             <p><strong>Events:</strong></p>
             {{#each events}}
-            <div>
+            <section>
                 <h3>{{name}}</h3>
                 <p><strong>ID:</strong> {{id}}</p>
                 <p><strong>Date:</strong> {{date}}</p>
                 <p><strong>Venue:</strong> {{venue.name}} - {{venue.city}}, {{venue.country}}</p>
-            </div>
+            </section>
             {{/each}}
-        </div>
+        </section>
         {{/each}}
+        <button onclick="location.href='/seca/home.html'">Return to Homepage</button></p>
     </body>
 </html>
