@@ -65,7 +65,7 @@ export default function () {
                 token: crypto.randomUUID()
             }
             USERS.push(user)
-            return user.token
+            return user
         } 
         throw errors.INVALID_ARGUMENT("username already exists")
     }
