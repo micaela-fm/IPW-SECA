@@ -45,12 +45,13 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded( {extended: true }))
-app.use('/seca', express.static('./web/site/views'))
+app.use('/seca', express.static('./web/site/static'))
 
 // Documentation
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 
 // Handlebars view engine setup
+app.engine('hbs', hbs.__express)
 const currentFileDir = url.fileURLToPath(new URL('.', import.meta.url))
 const viewsDir = path.join(currentFileDir, 'web', 'site', 'views')
 app.set('view engine', 'hbs')
@@ -63,6 +64,7 @@ app.get("/seca/events/popular", site.getPopularEvents)
 app.get("/seca/groups", site.listGroups)
 app.post("/seca/groups", site.createGroup)
 app.get("/seca/groups/:id", site.getGroupDetails) 
+app.get("/seca/groups/:id/edit", site.editGroupForm)
 app.post("/seca/groups/:id/edit", site.editGroup) 
 app.post("/seca/groups/:id/delete", site.deleteGroup) 
 

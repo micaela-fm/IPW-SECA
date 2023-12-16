@@ -5,30 +5,13 @@
     </head>
     <body>
         <h1>Group List</h1>
-        <p>
-            <button onclick="location.href='/seca/createGroupForm.html'">Create new group</button>
-            <button onclick="location.href='/seca/home.html'">Return to homepage</button>
-        </p>        
+        <p><button onclick="location.href='/seca/home.html'">Return to homepage</button></p>        
         {{#each groups}}
         <section>
-            <h2>{{name}}</h2>
+            <h2><a href="/seca/groups/{{id}}">{{name}}</a></h2>
             <p><strong class="title-label">Description:</strong> {{description}}</p>
-            <p><strong class="title-label">Events:</strong></p>
-            <ol>
-                {{#each events}}
-                <li>
-                    <h3>{{name}}</h3>
-                    <p><strong>ID:</strong> {{id}}</p>
-                    <p><strong>Date:</strong> {{date}}</p>
-                    <p><strong>Venue:</strong> {{venue.name}} - {{venue.city}}, {{venue.country}}</p>
-                </li>
-                {{/each}}
-            </ol>
         </section>
         {{/each}}
-        <p>
-            <button onclick="location.href='/seca/createGroupForm.html'">Create new group</button>
-            <button onclick="location.href='/seca/home.html'">Return to homepage</button>
-        </p>   
+        <p><button onclick="location.href='/seca/home.html'">Return to homepage</button></p>   
     </body>
 </html>

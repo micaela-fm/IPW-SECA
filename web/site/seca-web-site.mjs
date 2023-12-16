@@ -14,6 +14,7 @@ export default function (secaEventsServices, secaGroupsServices, secaUsersServic
     getPopularEvents: processRequest(_getPopularEvents, false),
     searchEvents: processRequest(_searchEventsByName, false),
     createGroup: processRequest(_createGroup, true),
+    editGroupForm: processRequest(_editGroupForm, true),
     editGroup: processRequest(_editGroup, true),
     listGroups: processRequest(_listAllGroups, true),
     deleteGroup: processRequest(_deleteGroup, true),
@@ -50,6 +51,13 @@ export default function (secaEventsServices, secaGroupsServices, secaUsersServic
     rsp.redirect('groups')
   }
 
+  // Render the form for editing a group
+  async function _editGroupForm(req, rsp) {
+    const groupId = req.params.id
+    const group = await secaGroupsServices.getGroup(groupId, req.token)
+    rsp.render('editGroupForm', { group })
+  }
+  
   // Edit group by changing its name and description
   async function _editGroup(req, rsp) {
     const groupId = req.params.id
@@ -59,8 +67,7 @@ export default function (secaEventsServices, secaGroupsServices, secaUsersServic
     }
 
     const group = await secaGroupsServices.editGroup(groupId, newGroup, req.token)
-    // rsp.render('editGroup', {group})^
-    rsp.redirect('groups')
+    rsp.redirect('/seca/groups')
   }
 
   // List all groups
