@@ -6,7 +6,7 @@
     <body>
         <h1>The Events That Match Your Keyword:</h1>
         <ul>
-        {{#each this}}
+        {{#each events}}
             <li>
                 <h2>{{name}}</h2>
                 <p><strong>ID:</strong> {{id}}</p>
@@ -14,6 +14,10 @@
                 <p><strong>Venue:</strong> {{venue.name}} - {{venue.city}}, {{venue.country}}</p>
             </li>
         {{/each}}
-    </ul>
+        </ul>
+        <p>
+            <button onclick="location.href='/seca/popularEventsForm.html'">Return Search Events</button>
+            <button onclick="location.href='/seca/home.html'">Return to Homepage</button>
+        </p>
     </body>
 </html>
