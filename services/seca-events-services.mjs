@@ -35,10 +35,10 @@ export async function getEventsById(eventId) {
 }
 
 async function validateParameters(s, p) {
-    if(s <= 0) throw errors.INVALID_ARGUMENT("size")
-    if(p <= 0) throw errors.INVALID_ARGUMENT("page")
     let size = Number(s) || 30
     let page = Number(p) || 1
+    if(size <= 0) throw errors.INVALID_ARGUMENT("size")
+    if(page <= 0) throw errors.INVALID_ARGUMENT("page")
     return {size, page}
 }
 

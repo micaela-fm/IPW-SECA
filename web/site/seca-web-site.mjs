@@ -37,7 +37,7 @@ export default function (secaEventsServices, secaGroupsServices, secaUsersServic
     const size = req.query.size
     const page = req.query.page
     const events = await secaEventsServices.getEventsByName(keyword, size, page)
-    rsp.render('eventsByName', {events})
+    rsp.render('eventsByName', events)
   }
 
   // Create group providing its name and description
@@ -129,7 +129,7 @@ export default function (secaEventsServices, secaGroupsServices, secaUsersServic
     }
   }
 
-  // temp test version
+  // temp hardcoded version
   function getToken(req) {
     return req.token = "3eac1b5d-1386-4ecd-a831-656c75c410f0"
   }

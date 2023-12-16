@@ -44,6 +44,8 @@ const app = express()
 // Initializing middleware
 app.use(cors())
 app.use(express.json())
+app.use(express.urlencoded( {extended: true }))
+app.use('/seca', express.static('./web/site/views'))
 
 // Documentation
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument))
