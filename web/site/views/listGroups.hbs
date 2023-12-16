@@ -2,25 +2,56 @@
 <html>
     <head>
         <title>Group List</title>
+    <style>
+       body {
+            background-color: #1E1E1E; 
+            color: white;
+            font-family: 'Roboto', sans-serif; /* Changing the font to Roboto */
+        }
+        h1 {
+            color: #9c0404; 
+        }
+        h2 {
+            color: #ea9fc7; 
+            
+        }
+        h3 {
+            color: #e0eaa4; 
+        }
+        a {
+            color: white; 
+            text-decoration: none; 
+        }
+        a:hover {
+            text-decoration: underline; /* Underline on hover */
+            color: #9c0404; /* Change color to darker red on hover */
+        }
+
+        .title-label {
+            color: #6ed6dd;
+        }
+    </style>
     </head>
     <body>
         <h1>Group List</h1>
-        {{#each groups}}
+
+        <p><button onclick="location.href='/seca/createGroupForm.html'">Create new group</button>
+        <button onclick="location.href='/seca/home.html'">Return to homepage</button></p>        {{#each groups}}
         <section>
             <h2>{{name}}</h2>
-            <p><strong>Description:</strong> {{description}}</p>
-            <p><strong>Events:</strong></p>
-            {{#each events}}
-            <section>
-                <h3>{{name}}</h3>
-                <p><strong>ID:</strong> {{id}}</p>
-                <p><strong>Date:</strong> {{date}}</p>
-                <p><strong>Venue:</strong> {{venue.name}} - {{venue.city}}, {{venue.country}}</p>
-            </section>
-            {{/each}}
+            <p><strong class="title-label">Description:</strong> {{description}}</p>
+            <p><strong class="title-label">Events:</strong></p>
+            <ol>
+                {{#each events}}
+                <li>
+                    <h3>{{name}}</h3>
+                    <p><strong>ID:</strong> {{id}}</p>
+                    <p><strong>Date:</strong> {{date}}</p>
+                    <p><strong>Venue:</strong> {{venue.name}} - {{venue.city}}, {{venue.country}}</p>
+                </li>
+                {{/each}}
+            </ol>
         </section>
         {{/each}}
-        <p><button onclick="location.href='/seca/createGroupForm.html'">Create new group</button>
-        <button onclick="location.href='/seca/home.html'">Return to homepage</button></p>
     </body>
 </html>
