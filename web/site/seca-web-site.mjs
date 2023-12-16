@@ -46,7 +46,7 @@ export default function (secaEventsServices, secaGroupsServices, secaUsersServic
       name: req.body.name,
       description: req.body.description
     }
-    const group = await secaGroupsServices.createGroup(newGroup, req.token)
+    await secaGroupsServices.createGroup(newGroup, req.token)
     rsp.redirect('groups')
   }
 
