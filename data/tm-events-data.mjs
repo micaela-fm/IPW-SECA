@@ -36,23 +36,29 @@ export async function getEventById(eventId) {
 
 // Auxiliary functions
 function processResults(results) {
-    return results.map(e => standardEventDetails(e));
+    if (!results || !Array.isArray(results)) {
+        throw new Error('Invalid results')
+    }
+
+    return results
+        .filter(result => result && result._embedded && result._embedded.venues && result._embedded.venues[0])
+        .map(e => standardEventDetails(e))
 }
 
 function standardEventDetails(data) {
-    const date = String(data.dates.start.dateTime)
-    const day = date.split("T")[0]
-    const time = date.split("T")[1].slice(0, 5)
+    const date = String(data.dates.start.dateTime).split("T")
+    const day = date[0]
+    const time = date.length > 1 ? date[1].slice(0, 5) : '00:00'
     const event = {
         "id": data.id,
         "name": data.name,
-        "date": day.concat(" at ").concat(time).concat(" UTC"),
+        "date": `${day} | ${time}`,
         "venue": {
             "name": data._embedded.venues[0].name,
             "country": data._embedded.venues[0].country.name,
             "city": data._embedded.venues[0].city.name,
         },
-    };
+    }
     return event
 }
 
