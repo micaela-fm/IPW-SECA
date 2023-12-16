@@ -5,19 +5,13 @@
     </head>
     <body>
         <h1>Group List</h1>
-        <p>
-            <button onclick="location.href='/seca/createGroupForm.html'">Create new group</button>
-            <button onclick="location.href='/seca/home.html'">Return to homepage</button>
-        </p>        
+        <p><button onclick="location.href='/seca/home.html'">Return to homepage</button></p>        
         {{#each groups}}
         <section>
             <h2><a href="/seca/groups/{{id}}">{{name}}</a></h2>
             <p><strong class="title-label">Description:</strong> {{description}}</p>
         </section>
         {{/each}}
-        <p>
-            <button onclick="location.href='/seca/createGroupForm.html'">Create new group</button>
-            <button onclick="location.href='/seca/home.html'">Return to homepage</button>
-        </p>   
+        <p><button onclick="location.href='/seca/home.html'">Return to homepage</button></p>   
     </body>
 </html>
