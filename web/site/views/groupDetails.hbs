@@ -5,8 +5,8 @@
     </head>
     <body>
         <h1>Group Details</h1>
-        <p><button onclick="location.href='/seca/groups'">Return to group list</button>
-        <button onclick="location.href='/seca/home.html'">Return to homepage</button></p>
+        <p><button onclick="location.href='/seca/groups'">Group list</button>
+        <button onclick="location.href='/seca/home.html'">Homepage</button></p>
         <p><button onclick="location.href='/seca/groups/{{group.id}}/edit'">Edit group</button></p> 
         <form method="POST" action="/seca/groups/{{group.id}}/delete">
             <input type="submit" value="Delete group">
@@ -17,7 +17,7 @@
         <p><strong>Events:</strong></p>
             {{#each group.events}}
             <li>
-                <h2>{{name}}</h2>
+                <h2><a href="/seca/events/{{id}}">{{name}}</a></h2>
                 <p><strong>ID:</strong> {{id}}</p>
                 <p><strong>Date:</strong> {{date}}</p>
                 <p><strong>Venue:</strong> {{venue.name}} - {{venue.city}}, {{venue.country}}</p>

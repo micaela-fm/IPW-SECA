@@ -6,11 +6,11 @@
     <body>
         <h1>The Events That Match Your Keyword:</h1>
         <p>
-            <button onclick="location.href='/seca/eventsByNameForm.html'">Return to Search Events</button>
-            <button onclick="location.href='/seca/home.html'">Return to Homepage</button>
+            <button onclick="location.href='/seca/eventsByNameForm.html'">Search Events</button>
+            <button onclick="location.href='/seca/home.html'">Homepage</button>
         </p>
         {{#unless events}}
-            <p>No events found.</p>
+            <p>We found no events matching your keyword.</p>
             <img src="https://c.tenor.com/LwQ4CWuGCtsAAAAd/tenor.gif">
         {{else}}
             <ol>
@@ -25,8 +25,8 @@
             </ol>
         {{/unless}}
         <p>
-            <button onclick="location.href='/seca/eventsByNameForm.html'">Return Search Events</button>
-            <button onclick="location.href='/seca/home.html'">Return to Homepage</button>
+            <button onclick="location.href='/seca/eventsByNameForm.html'">Search Events</button>
+            <button onclick="location.href='/seca/home.html'">Homepage</button>
         </p>
     </body>
 </html>
