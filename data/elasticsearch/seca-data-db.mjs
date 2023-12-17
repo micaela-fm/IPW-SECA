@@ -67,17 +67,14 @@ export default function () {
 
     // TODO
     async function getGroup(groupId) {
-        const result = await client.get({
-            index: 'groups',
-            id: groupId,
-            _source: ["name", "description", "members"]
-        });
+        const uri = groupUriManager.get(groupId) 
+        const result = await fetchWrapper.get(uri) 
 
-        if (!result.body.found) {
-            throw new Error('Group not found.')
+        if (!result.found) {
+            throw errors.NOT_FOUND("Group")
         }
 
-        return result.body._source;
+        return result._source
     }
 
     // TODO
@@ -93,18 +90,6 @@ export default function () {
         group.id = response._id
         return group
     }
-
-    // async function createGroup(newGroup) {
-    //     const response = await client.index({
-    //         index: 'groups_index',
-    //         body: newGroup,
-    //         refresh: true
-    //     });
-
-    //     console.log(`Group added successfully with ID ${response.body._id}.`);
-
-    //     return response.body._id;
-    // }
 
     // TODO
     async function editGroup(groupId, group) {
