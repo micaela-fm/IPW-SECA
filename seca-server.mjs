@@ -17,8 +17,8 @@ import initUsersServices from "./services/seca-users-services.mjs"
 //import * as secaUsersServices from "./services/seca-users-services.mjs"
 import apiInit from "./web/api/seca-web-api.mjs"
 import siteInit from "./web/site/seca-web-site.mjs"
-import secaDataInit from "./data/seca-data-mem.mjs"
-// import secaDataInit from "./data/seca-data-db.mjs"
+// import secaDataInit from "./data/seca-data-mem.mjs"
+import secaDataInit from "./data/elasticsearch/seca-data-db.mjs"
 
 
 // Reading content from yaml doc
@@ -29,6 +29,7 @@ const swaggerDocument = yaml.load("./seca-api.yaml")
 // dotenv.config({ path: './.env' })
 // const PORT = process.env.PORT
 const PORT = 3000
+const ES_PORT = 9200
 
 // Initializing secaServices, api and site
 const secaData = secaDataInit()
