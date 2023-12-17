@@ -1,10 +1,7 @@
 import crypto from 'node:crypto'
 import errors from '../../common/errors.mjs'
-import { Client } from '@elastic/elasticsearch'
 import * as fetchWrapper from './fetch-wrapper.mjs'
 import uriManager from './uri-manager.mjs'
-
-const client = new Client({ node: process.env.ELASTICSEARCH_NODE || 'http://localhost:9200' })
 
 export default function () {
     const userUriManager = uriManager('users')

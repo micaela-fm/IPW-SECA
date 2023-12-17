@@ -23,21 +23,14 @@ async function fetchInternal(uri, options = { }, body = undefined) {
         options.body = JSON.stringify(body)
     }
 
-    //console.log(`Fetching from ${uri} with these options`, options)
-
     return fetch(uri, options)
         .then(response => response.json())
         .then(showResponse)
-
-    // const rsp = await fetch(uri, options)
-    // const obj = await rsp.json()
-    // console.log(obj)
-    // return obj
-
+        
 
     function showResponse(body) {
-        console.log(`Received from ${uri}`)
-        console.log(body)
+        // console.log(`Received from ${uri}`)
+        // console.log(body)
 
         return body
     }
