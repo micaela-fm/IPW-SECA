@@ -13,14 +13,17 @@
         </form></p>
 
         <p><strong>Name:</strong> {{group.name}}</p>
-        <p><strong>Description:</strong> {{group.description}}</p>
+        <p><strong>Description:</strong> {{group.description}}</p> 
         <p><strong>Events:</strong></p>
             {{#each group.events}}
             <li>
-                <h2>{{this.name}}</h2>
-                <p><strong>ID:</strong> {{this.id}}</p>
-                <p><strong>Date:</strong> {{this.date}}</p>
-                <p><strong>Venue:</strong> {{this.venue.name}} - {{this.venue.city}}, {{this.venue.country}}</p>
+                <h2>{{name}}</h2>
+                <p><strong>ID:</strong> {{id}}</p>
+                <p><strong>Date:</strong> {{date}}</p>
+                <p><strong>Venue:</strong> {{venue.name}} - {{venue.city}}, {{venue.country}}</p>
+                <form method="POST" action="/seca/groups/{{../group.id}}/events/{{id}}/delete">
+                    <input type="submit" value="Delete event">
+                </form>
             </li>
             {{/each}}
     </body>

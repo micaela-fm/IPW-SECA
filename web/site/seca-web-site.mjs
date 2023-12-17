@@ -103,7 +103,7 @@ export default function (secaEventsServices, secaGroupsServices, secaUsersServic
     const groupId = req.params.id
     const eventId = req.params.eventId
     const event = await secaGroupsServices.deleteEventFromGroup(groupId, eventId, req.token)
-    rsp.render('deleteGroup', {group})
+    rsp.redirect(`/seca/groups/${groupId}`)
   }
 
   // Create new user, given its username
