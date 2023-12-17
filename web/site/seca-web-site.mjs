@@ -103,15 +103,16 @@ export default function (secaEventsServices, secaGroupsServices, secaUsersServic
   async function _addEventForm(req, rsp) {
     const eventId = req.params.id
     const event = await secaEventsServices.getEventsById(eventId);
-    rsp.render('addEventForm', { event })
+    const groups = await secaGroupsServices.getAllGroups(req.token)
+    rsp.render('addEventForm', { event, groups })
   }
 
   // Add a event to a group
   async function _addEventToGroup(req, rsp) {
-    const groupId = req.params.id
-    const eventId = req.body.eventId
-    const event = await secaGroupsServices.addEventToGroup(groupId, eventId, req.token)
-    rsp.render('addEvent', { group, event })
+    const groupId = req.body.groupId
+    const eventId = req.params.id
+    await secaGroupsServices.addEventToGroup(groupId, eventId, req.token)
+    rsp.redirect(`/seca/groups/${groupId}`)
   }
 
   // Remove an event from a group

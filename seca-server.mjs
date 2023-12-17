@@ -71,7 +71,7 @@ app.post("/seca/groups/:id/edit", site.editGroup)
 app.post("/seca/groups/:id/delete", site.deleteGroup) 
 
 
-app.post("/seca/groups/:id/events", site.addEvent) 
+app.post("/seca/events/:id/add", site.addEvent) 
 app.post("/seca/groups/:id/events/:eventId/delete", site.removeEvent) 
 
 app.post("/seca/users", site.createUser) // TODO
