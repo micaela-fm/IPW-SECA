@@ -1,5 +1,7 @@
 import crypto from 'node:crypto'
 import { Client } from '@elastic/elasticsearch'
+import * as fetchWrapper from './fetch-wrapper.mjs'
+import uriManager from './uri-manager.mjs'
 
 const client = new Client({ node: process.env.ELASTICSEARCH_NODE || 'http://localhost:9200' })
 
@@ -17,20 +19,18 @@ export default function () {
     }
 
     async function insertUser(username) {
-		console.log('username: ', username); // Debugging line
-        const existingUser = await getUser(username)
-        if (existingUser) {
-          throw new Error('Username already exists')
-        }
         const user = {
-          name: username,
-          token: crypto.randomBytes(16).toString('hex')
+            name: username,
+            token: crypto.randomUUID()
         }
-        const response = await addUser(user);
-
-        console.log(`User added successfully with ID ${response._id}.`);
-
-        return response._id;
+    
+        const userUriManager = await uriManager('users')
+        const uri = userUriManager.create()
+        const response = fetchWrapper.post(uri, user)
+    
+        user.id = response._id
+    
+        return user
     }
 
     async function getUserId(userToken) {
