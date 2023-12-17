@@ -6,6 +6,7 @@ import uriManager from './uri-manager.mjs'
 export default function () {
     const userUriManager = uriManager('users')
     const groupUriManager = uriManager('groups')
+    const eventUriManager = uriManager('events')
     
     return {
         insertUser,
