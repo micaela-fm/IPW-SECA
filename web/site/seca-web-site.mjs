@@ -66,7 +66,7 @@ export default function (secaEventsServices, secaGroupsServices, secaUsersServic
       description: req.body.description
     }
 
-    const group = await secaGroupsServices.editGroup(groupId, newGroup, req.token)
+    await secaGroupsServices.editGroup(groupId, newGroup, req.token)
     rsp.redirect('/seca/groups')
   }
 
@@ -79,8 +79,8 @@ export default function (secaEventsServices, secaGroupsServices, secaUsersServic
   // Delete a group
   async function _deleteGroup(req, rsp) {
     const groupId = req.params.id
-    const group = await secaGroupsServices.deleteGroup(groupId, req.token)
-    rsp.render('deleteGroup', {group})
+    await secaGroupsServices.deleteGroup(groupId, req.token)
+    rsp.redirect('/seca/groups')
   }
 
   // Get the details of a group

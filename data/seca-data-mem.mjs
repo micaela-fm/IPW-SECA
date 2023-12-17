@@ -96,10 +96,12 @@ export default function () {
         if (!user) throw errors.USER_NOT_FOUND()
         return user.id
     }
-    
+
     async function getAllGroups(userId) {
         const groups = GROUPS.filter (g => g.userId == userId)
-        if (!groups || groups.length < 1) throw errors.NOT_FOUND("Group")
+        if (!groups || groups.length < 1) {
+            return []
+        }
         return groups
     }
     
@@ -108,12 +110,6 @@ export default function () {
         if (!group) throw errors.NOT_FOUND("Group")
         return group
     }
-
-    // async function getGroup(groupName) {
-    //     const group = GROUPS.find (g => g.name == groupName)
-    //     if (!group) throw errors.NOT_FOUND("Group")
-    //     return group
-    // }
     
     async function createGroup(newGroup) {
         const group = {
@@ -141,7 +137,7 @@ export default function () {
     
     async function deleteGroup(groupId) {
         const newGROUPS = GROUPS.filter(g => {
-            g.id != groupId
+            return g.id != groupId
         })
         GROUPS = newGROUPS
         return true
