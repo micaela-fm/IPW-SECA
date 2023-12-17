@@ -1,34 +1,69 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Homepage</title>
+    <title>SECA</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        .categories {
+            display: flex;
+            justify-content: space-between;
+        }
+        .category {
+            flex: 1;
+            margin: 0 10px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center; 
+            justify-content: center; 
+        }
+        .header {
+            text-align: center;
+        }
+        .header h2 {
+            margin-bottom: 50px;
+        }
+        .category h3 {
+            margin-top: 50px; 
+        }
+        .category ul {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome to the SECA Homepage</h1>
-    <h2>(Shows & Events Chelas Application)</h2>
+    <div class="header">
+        <h1>Welcome to the SECA Homepage</h1>
+        <h2>(Shows & Events Chelas Application)</h2>
+    </div>
 
     <div class="image-container">
-        <img src="https://images.squarespace-cdn.com/content/v1/57d9daea414fb5d6946d3f9b/1536668466158-YUBR7C8KW1VAUKUXMUI9/AZ-Feastivals-Banner-EVENTS.png?format=2500w" alt="Your Alt Text">
-      </div>
+        <img src="https://images.squarespace-cdn.com/content/v1/57d9daea414fb5d6946d3f9b/1536668466158-YUBR7C8KW1VAUKUXMUI9/AZ-Feastivals-Banner-EVENTS.png?format=2500w">
+    </div>
       
-    <h3>Navigation:</h3>
-    <ul>
-        <li><h3>Events</li></h3>
-        <ul>
-            <li><a href="/seca/eventsByNameForm.html">Search Events by Name</a></li>
-            <li><a href="/seca/popularEventsForm.html">Most Popular Events</a></li>
-        </ul>
-        <li><h3>Groups</h3></li>
-        <ul>
-            <li><a href="/seca/groups">List Groups</a></li>
-            <li><a href="/seca/createGroupForm.html">Create Group</a></li>
-        </ul>
-        <li><h3>User</h3></li>
-        <ul>
-            <li><a href="/seca/loginForm.html">Login</a></li>
-            <li><a href="/seca/createUserForm.html">Create User</a></li>
-        </ul>
-    </ul>
+    <div class="categories">
+        <div class="category">
+            <h3>Events</h3>
+            <ul>
+                <li><a href="/seca/eventsByNameForm.html">Search Events by Name</a></li>
+                <li><a href="/seca/popularEventsForm.html">Most Popular Events</a></li>
+            </ul>
+        </div>
+        <div class="category">
+            <h3>Groups</h3>
+            <ul>
+                <li><a href="/seca/groups">List Groups</a></li>
+                <li><a href="/seca/createGroupForm.html">Create Group</a></li>
+            </ul>
+        </div>
+        <div class="category">
+            <h3>User</h3>
+            <ul>
+                <li><!--<a href="/seca/loginForm.html">Login</a>-->Login (coming soon)</li>
+                <li><a href="/seca/createUserForm.html">Create User</a></li>
+            </ul>
+        </div>
+    </div>
 </body>
 </html>

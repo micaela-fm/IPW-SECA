@@ -16,7 +16,7 @@ h3 {
 }
 a {
     color: white; 
-    text-decoration: none; 
+    text-decoration: underline; 
 }
 a:hover {
     text-decoration: underline; /* Underline on hover */
