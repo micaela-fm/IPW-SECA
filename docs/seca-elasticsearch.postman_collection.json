@@ -1,0 +1,218 @@
+{
+	"info": {
+		"_postman_id": "9ff37ad7-bad3-4e17-8e62-8f54da30c7c1",
+		"name": "seca-elasticsearch",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31438719",
+		"_collection_link": "https://ipw-g07.postman.co/workspace/IPW-G07-Workspace~8196d028-d27a-4fc9-8f7d-cd9415a5f0e4/collection/31438719-9ff37ad7-bad3-4e17-8e62-8f54da30c7c1?action=share&source=collection_link&creator=31438719"
+	},
+	"item": [
+		{
+			"name": "Main Endpoint",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{host}}:{{port}}/",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Main Endpoint Copy",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9200",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9200"
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List indices",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{host}}:{{port}}/_all",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"_all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete document",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{host}}:{{port}}/groups/_doc/{{groupId}}",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"groups",
+						"_doc",
+						"{{groupId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create index",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://{{host}}:{{port}}/groups",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"groups"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create a document with POST",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\r\n        \"name\": \"Tiago Névoa\",\r\n        \"token\": \"34e4953f-40d0-456c-8fcf-1db2ea51c9f4\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{host}}:{{port}}/users/_doc/",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"users",
+						"_doc",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get a document",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{host}}:{{port}}/users/_doc/DHBCeIwBw-FFCzFCXnUU",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"users",
+						"_doc",
+						"DHBCeIwBw-FFCzFCXnUU"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{host}}:{{port}}/users/_search",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"users",
+						"_search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List groups",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{host}}:{{port}}/users/_search",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"users",
+						"_search"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "host",
+			"value": "localhost"
+		},
+		{
+			"key": "port",
+			"value": "9200"
+		}
+	]
+}
