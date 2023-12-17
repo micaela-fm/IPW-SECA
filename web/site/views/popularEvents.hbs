@@ -9,7 +9,7 @@
             <button onclick="location.href='/seca/popularEventsForm.html'">Popular Events</button>
             <button onclick="location.href='/seca/home.html'">Homepage</button>
         </p>
-        <ul>
+        <ol>
         {{#each events}}
             <li>
                 <h2><a href="/seca/events/{{id}}">{{name}}</a></h2>
@@ -18,7 +18,7 @@
                 <p><strong>Venue:</strong> {{venue.name}} - {{venue.city}}, {{venue.country}}</p>
             </li>
         {{/each}}
-        </ul>
+        </ol>
         <p>
             <button onclick="location.href='/seca/popularEventsForm.html'">Popular Events</button>
             <button onclick="location.href='/seca/home.html'">Homepage</button>
