@@ -2,7 +2,7 @@ const partialURL = `https://app.ticketmaster.com/discovery/v2/events`;
 const apiKey = 'ScS7GANgbw2KFur1iOp7dpQME1gAdieS';
 
 export async function getEventsByName(keyword, size, page) {
-    const rsp = await fetch(`${partialURL}?apikey=${apiKey}&keyword=${keyword}&size=${size}&page=${page}`)
+    const rsp = await fetch(`${partialURL}?apikey=${apiKey}&size=${size}&page=${page - 1}&keyword=${keyword}`)
         .then(r => r.json())
 
     if(!rsp.hasOwnProperty("_embedded")) {
@@ -14,7 +14,7 @@ export async function getEventsByName(keyword, size, page) {
 }
 
 export async function getPopularEvents(size, page) {
-    const rsp = await fetch(`${partialURL}?apikey=${apiKey}&size=${size}&page=${page}&sort=relevance,desc`)
+    const rsp = await fetch(`${partialURL}?apikey=${apiKey}&size=${size}&page=${page - 1}&sort=relevance,desc`)
         .then(r => r.json())
     if (rsp._embedded.events != null) {
         const events = processResults(rsp._embedded.events)
