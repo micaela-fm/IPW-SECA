@@ -60,6 +60,8 @@ app.set('views', viewsDir)
 // HTTP Site Routes
 app.get("/seca/events", site.searchEvents)
 app.get("/seca/events/popular", site.getPopularEvents)
+app.get("/seca/events/:id", site.getEventDetails)
+app.get("/seca/events/:id/add", site.addEventForm) 
 
 app.get("/seca/groups", site.listGroups)
 app.post("/seca/groups", site.createGroup)
@@ -67,6 +69,7 @@ app.get("/seca/groups/:id", site.getGroupDetails)
 app.get("/seca/groups/:id/edit", site.editGroupForm)
 app.post("/seca/groups/:id/edit", site.editGroup) 
 app.post("/seca/groups/:id/delete", site.deleteGroup) 
+
 
 app.post("/seca/groups/:id/events", site.addEvent) 
 app.post("/seca/groups/:id/events/:eventId/delete", site.removeEvent) 

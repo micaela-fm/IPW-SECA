@@ -13,12 +13,14 @@ export default function (secaEventsServices, secaGroupsServices, secaUsersServic
   return {
     getPopularEvents: processRequest(_getPopularEvents, false),
     searchEvents: processRequest(_searchEventsByName, false),
+    getEventDetails: processRequest(_getEventDetails, false),
     createGroup: processRequest(_createGroup, true),
     editGroupForm: processRequest(_editGroupForm, true),
     editGroup: processRequest(_editGroup, true),
     listGroups: processRequest(_listAllGroups, true),
     deleteGroup: processRequest(_deleteGroup, true),
     getGroupDetails: processRequest(_getGroupDetails, true),
+    addEventForm: processRequest(_addEventForm, true),
     addEvent: processRequest(_addEventToGroup, true),
     removeEvent: processRequest(_removeEvent, true),
     createUser: processRequest(_createUser, false)
@@ -39,6 +41,13 @@ export default function (secaEventsServices, secaGroupsServices, secaUsersServic
     const page = req.query.page
     const events = await secaEventsServices.getEventsByName(keyword, size, page)
     rsp.render('eventsByName', { events })
+  }
+
+  // Get the details of an event
+  async function _getEventDetails(req, rsp) {
+    const eventId = req.params.id;
+    const event = await secaEventsServices.getEventsById(eventId);
+    rsp.render('eventDetails', { event });
   }
 
   // Create group providing its name and description
@@ -91,11 +100,18 @@ export default function (secaEventsServices, secaGroupsServices, secaUsersServic
   }
 
   // Add a event to a group
+  async function _addEventForm(req, rsp) {
+    const eventId = req.params.id
+    const event = await secaEventsServices.getEventsById(eventId);
+    rsp.render('addEventForm', { event })
+  }
+
+  // Add a event to a group
   async function _addEventToGroup(req, rsp) {
     const groupId = req.params.id
     const eventId = req.body.eventId
     const event = await secaGroupsServices.addEventToGroup(groupId, eventId, req.token)
-    rsp.render('addEvent', {group, event})
+    rsp.render('addEvent', { group, event })
   }
 
   // Remove an event from a group

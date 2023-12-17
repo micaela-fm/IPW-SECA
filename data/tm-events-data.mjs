@@ -29,23 +29,23 @@ export async function getEventById(eventId) {
 
     if (!rsp || !rsp._embedded) return null
 
-    const event = standardEventDetails(rsp)
+    const event = standardEventDetails(rsp, true)
 
     return event
 }
 
 // Auxiliary functions
-function processResults(results) {
+function processResults(results, moreDetails) {
     if (!results || !Array.isArray(results)) {
         throw new Error('Invalid results')
     }
 
     return results
         .filter(result => result && result._embedded && result._embedded.venues && result._embedded.venues[0])
-        .map(e => standardEventDetails(e))
+        .map(e => standardEventDetails(e, moreDetails))
 }
 
-function standardEventDetails(data) {
+function standardEventDetails(data, moreDetails = false) {
     const date = String(data.dates.start.dateTime).split("T")
     const day = date[0]
     const time = date.length > 1 ? date[1].slice(0, 5) : '00:00'
@@ -57,8 +57,27 @@ function standardEventDetails(data) {
             "name": data._embedded.venues[0].name,
             "country": data._embedded.venues[0].country.name,
             "city": data._embedded.venues[0].city.name,
-        },
+        }
     }
+
+    if(moreDetails) {
+        const salesStart = String(data.sales.public.startDateTime).split("T")
+        const salesStartDay = salesStart[0]
+        const salesStartTime = salesStart.length > 1 ? salesStart[1].slice(0, 5) : '00:00'
+        event.salesStart = `${salesStartDay} | ${salesStartTime}`
+
+        const salesEnd = String(data.sales.public.endDateTime).split("T")
+        const salesEndDay = salesEnd[0]
+        const salesEndTime = salesEnd.length > 1 ? salesEnd[1].slice(0, 5) : '00:00'
+        event.salesEnd = `${salesEndDay} | ${salesEndTime}`
+
+        event.image = data.images[0].url
+        event.segment = data.classifications[0].segment.name
+        event.genre = data.classifications[0].genre.name
+        event.subgenre = data.classifications[0].subGenre.name
+
+    }
+
     return event
 }
 

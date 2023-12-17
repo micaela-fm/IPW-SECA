@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Event Details</title>
+    </head>
+    <body>
+        <h1>{{event.name}}</h1>
+        <img src="{{event.image}}" style="width: 25vw;">
+        <p><strong>ID:</strong> {{event.id}}</p>
+        <p><strong>Date:</strong> {{event.date}}</p>
+        <p><strong>Venue:</strong> {{event.venue.name}} - {{event.venue.city}}, {{event.venue.country}}</p>
+        <p><strong>Sales Start:</strong> {{event.salesStart}}</p>
+        <p><strong>Sales End:</strong> {{event.salesEnd}}</p>
+        <p><strong>Segment:</strong> {{event.segment}}</p>
+        <p><strong>Genre:</strong> {{event.genre}}</p>
+        <p><strong>SubGenre:</strong> {{event.subgenre}}</p>
+        <p><button onclick="location.href='/seca/events/{{event.id}}/add'">Add event to group</button></p>
+        <p><button onclick="window.history.back()">Return to results page</button>
+        <button onclick="location.href='/seca/home.html'">Return to homepage</button></p>
+    </body>
+</html>
