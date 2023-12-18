@@ -34,6 +34,7 @@ export default function () {
         return user
     }
 
+    // TO DO TO DO TO DO TO DO TO DO TO DO TO DO 
     async function getUserId(userToken) {
         const uri = userUriManager.getAll() 
         const body = {
@@ -47,7 +48,7 @@ export default function () {
             throw errors.USER_NOT_FOUND()
         }
 
-        return result.hits.hits[0]._source.id
+        return result.hits.hits[0]._source.id // need to fix this line
     }
 
     async function getAllGroups(userId) {
@@ -63,7 +64,10 @@ export default function () {
             return []
         }
 
-        return result.hits.hits.map(hit => hit._source)
+        return result.hits.hits.map(hit => ({
+            ...hit._source,
+            id: hit._id
+        }))
     }
 
     // TODO
