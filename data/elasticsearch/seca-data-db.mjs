@@ -65,12 +65,11 @@ export default function () {
         }
 
         return result.hits.hits.map(hit => ({
-            ...hit._source,
-            id: hit._id
+            id: hit._id, 
+            ...hit._source
         }))
     }
 
-    // TODO
     async function getGroup(groupId) {
         const uri = groupUriManager.get(groupId) 
         const result = await fetchWrapper.get(uri) 
@@ -79,10 +78,12 @@ export default function () {
             throw errors.NOT_FOUND("Group")
         }
 
-        return result._source
+        return { 
+            id: groupId,
+            ...result._source
+        }
     }
 
-    // TODO
     async function createGroup(newGroup) {
         const group = {
             name: newGroup.name, 
@@ -96,35 +97,49 @@ export default function () {
         return group
     }
 
-    // TODO
-    async function editGroup(groupId, group) {
-        await client.update({
-            index: 'groups',
-            id: groupId,
-            body: {
-                doc: group
-            },
-            refresh: true
-        });
+    async function editGroup(group) {
+        const uri = groupUriManager.update(group.id)
+        await fetchWrapper.post(uri, group)
+        console.log(`Group with ID ${group.id} updated successfully.`)
 
-        console.log(`Group with ID ${groupId} updated successfully.`);
+        const getUri = groupUriManager.get(group.id)
+        const result = await fetchWrapper.get(getUri)
+
+        if (!result.found) {
+            throw errors.NOT_FOUND("Group")
+        }
+
+        return {
+            id: group.id, 
+            ...result._source
+        }
     }
 
-    // TODO
     async function deleteGroup(groupId) {
-        const response = await client.delete({
-            index: 'groups',
-            id: groupId,
-            refresh: true
-        });
-
+        const uri = groupUriManager.delete(groupId)
+        await fetchWrapper.del(uri)
         console.log(`Group with ID ${groupId} deleted successfully.`);
-
-        return response.body.result;
+        
+        return true
     }
 
     async function addEventToGroup(groupId, event) {
-        // Implement this function
+        const uri = groupUriManager.get(groupId)
+
+        const result = await fetchWrapper.get(uri);
+        if (!result.found) {
+            throw errors.NOT_FOUND("Group")
+        }
+
+        const updatedGroup = {
+            id: groupId, 
+            ...result._source,
+            events: [...result._source.events, event]
+        }
+
+        await fetchWrapper.post(uri, updatedGroup)
+        console.log(`Event added to group with ID ${groupId} successfully.`);
+        return updatedGroup
     }
 
     async function deleteEventFromGroup(groupId, eventId) {
