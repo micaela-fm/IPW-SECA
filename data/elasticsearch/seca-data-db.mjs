@@ -143,7 +143,28 @@ export default function () {
     }
 
     async function deleteEventFromGroup(groupId, eventId) {
-        // Implement this function
+        const uri = groupUriManager.get(groupId)
+        const result = await fetchWrapper.get(uri)
+        
+        if (!result.found) {
+            throw errors.NOT_FOUND("Group")
+        }
+
+        const updatedEvents = result._source.events.filter(e => e.id !== eventId)
+
+        if (updatedEvents.length === result._source.events.length) {
+            throw errors.NOT_FOUND("Event")
+        }
+
+        const updatedGroup = {
+            id: groupId,
+            ...result._source,
+            events: updatedEvents
+        }
+
+        await fetchWrapper.post(uri, updatedGroup)
+        console.log(`Event with ID ${eventId} deleted from group with ID ${groupId} successfully.`)
+        return updatedGroup
     }
 
     // TODO
