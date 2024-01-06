@@ -11,13 +11,15 @@ export default function (secaData) {
 
     async function insertUser(username) {
         if (!username) throw errors.INVALID_ARGUMENT("username")
-        return secaData.insertUser(username)
+        return await secaData.insertUser(username)
     }
     
     
     async function getUserId(userToken) {
         if (!userToken) throw errors.INVALID_ARGUMENT("token")
-        return secaData.getUserId(userToken)
+        const user = await secaData.getUserByToken(userToken)
+        // console.log(user[0].id)
+        return user[0].id
     }
 }
 

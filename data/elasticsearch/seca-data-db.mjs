@@ -1,12 +1,20 @@
 import crypto from 'node:crypto'
 import errors from '../../common/errors.mjs'
-import * as fetchWrapper from './fetch-wrapper.mjs'
+import {USERS, GROUPS} from '../memory/seca-data-mem.mjs'
+import {get, post, del, put} from './fetch-wrapper.mjs'
 import uriManager from './uri-manager.mjs'
 
 export default async function () {
     const userUriManager = await uriManager('users')
     const groupUriManager = await uriManager('groups')
-    const eventUriManager = await uriManager('events')
+    //const eventUriManager = await uriManager('events')
+
+    // Put some default data into ES upon app init
+    await put(userUriManager.update(USERS[0].id), USERS[0])
+    await put(userUriManager.update(USERS[1].id), USERS[1])
+    await put(userUriManager.update(USERS[2].id), USERS[2])
+    await put(groupUriManager.update(GROUPS[0].id), GROUPS[0])
+    await put(groupUriManager.update(GROUPS[1].id), GROUPS[1])
     
     return {
         insertUser,
@@ -27,8 +35,7 @@ export default async function () {
             token: crypto.randomUUID()
         }
     
-        const uri = userUriManager.create()
-        const response = fetchWrapper.post(uri, user)
+        const response = await post(userUriManager.create(), user)
     
         user.id = response._id
     
@@ -43,7 +50,7 @@ export default async function () {
     //             match: { token: userToken }
     //         }
     //     }
-    //     const result = await fetchWrapper.post(uri, body)
+    //     const result = await post(uri, body)
 
     //     if (result.hits.total.value === 0) {
     //         throw errors.USER_NOT_FOUND()
@@ -53,27 +60,17 @@ export default async function () {
     // }
 
     async function getAllGroups(userId) {
-        const uri = groupUriManager.getAll()
-        const body = {
+        const query = {
             query: {
-                match: { userId: userId }
+                match: { "userId": userId }
             }
         }
-        const result = await fetchWrapper.post(uri, body) 
-
-        if (result.hits.total.value === 0) {
-            return []
-        }
-
-        return result.hits.hits.map(hit => ({
-            id: hit._id, 
-            ...hit._source
-        }))
+        return await post(groupUriManager.getAll(), query)
+            .then(body => body.hits.hits.map(createGroupFromElastic))
     }
 
     async function getGroup(groupId) {
-        const uri = groupUriManager.get(groupId) 
-        const result = await fetchWrapper.get(uri) 
+        const result = await get(groupUriManager.get(groupId))
 
         if (!result.found) {
             throw errors.NOT_FOUND("Group")
@@ -92,19 +89,16 @@ export default async function () {
             userId: newGroup.userId, 
             events: []
         }
-        const uri = groupUriManager.create()
-        const response = await fetchWrapper.post(uri, group)
+        const response = await post(groupUriManager.create(), group)
         group.id = response._id
         return group
     }
 
     async function editGroup(group) {
-        const uri = groupUriManager.update(group.id)
-        await fetchWrapper.post(uri, group)
+        await put(groupUriManager.update(group.id), group)
         console.log(`Group with ID ${group.id} updated successfully.`)
 
-        const getUri = groupUriManager.get(group.id)
-        const result = await fetchWrapper.get(getUri)
+        const result = await get(groupUriManager.get(group.id))
 
         if (!result.found) {
             throw errors.NOT_FOUND("Group")
@@ -117,8 +111,7 @@ export default async function () {
     }
 
     async function deleteGroup(groupId) {
-        const uri = groupUriManager.delete(groupId)
-        await fetchWrapper.del(uri)
+        await del(groupUriManager.delete(groupId))
         console.log(`Group with ID ${groupId} deleted successfully.`);
         
         return true
@@ -127,7 +120,7 @@ export default async function () {
     async function addEventToGroup(groupId, event) {
         const uri = groupUriManager.get(groupId)
 
-        const result = await fetchWrapper.get(uri);
+        const result = await get(uri);
         if (!result.found) {
             throw errors.NOT_FOUND("Group")
         }
@@ -138,14 +131,14 @@ export default async function () {
             events: [...result._source.events, event]
         }
 
-        await fetchWrapper.post(uri, updatedGroup)
+        await post(uri, updatedGroup)
         console.log(`Event added to group with ID ${groupId} successfully.`);
         return updatedGroup
     }
 
     async function deleteEventFromGroup(groupId, eventId) {
         const uri = groupUriManager.get(groupId)
-        const result = await fetchWrapper.get(uri)
+        const result = await get(uri)
         
         if (!result.found) {
             throw errors.NOT_FOUND("Group")
@@ -163,14 +156,14 @@ export default async function () {
             events: updatedEvents
         }
 
-        await fetchWrapper.post(uri, updatedGroup)
+        await post(uri, updatedGroup)
         console.log(`Event with ID ${eventId} deleted from group with ID ${groupId} successfully.`)
         return updatedGroup
     }
 
     async function getUser(propName, value) {
-        const uri = `${uriManager.getAll()}?q=${propName}:${value}`
-        return get(uri)
+        const uri = `${userUriManager.getAll()}?q=${propName}:${value}`
+        return await get(uri)
             .then(body => body.hits.hits.map(createUserFromElastic))
     }
 
@@ -179,11 +172,16 @@ export default async function () {
     } 
 
     async function getUserByUsername(username) {
-        return getUser("username", username)
+        return getUser("name", username)
     } 
 
     function createUserFromElastic(userElastic) {
         let user = Object.assign({id: userElastic._id}, userElastic._source)
         return user
+    }
+
+    function createGroupFromElastic(groupElastic) {
+        let group = Object.assign({id: groupElastic._id}, groupElastic._source)
+        return group
     }
 }

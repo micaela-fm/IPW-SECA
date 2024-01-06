@@ -28,7 +28,6 @@ const swaggerDocument = yaml.load("./seca-api.yaml")
 // dotenv.config({ path: './.env' })
 // const PORT = process.env.PORT
 const PORT = 3000
-const ES_PORT = 9200
 
 // Initializing secaServices, api and site
 const secaData = await secaDataInit()
