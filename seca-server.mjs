@@ -31,7 +31,7 @@ const PORT = 3000
 const ES_PORT = 9200
 
 // Initializing secaServices, api and site
-const secaData = secaDataInit()
+const secaData = await secaDataInit()
 const secaUsersServices = initUsersServices(secaData)
 const secaGroupsServices = initGroupsServices(secaUsersServices, secaData)
 const api = apiInit(secaEventsServices, secaGroupsServices, secaUsersServices)

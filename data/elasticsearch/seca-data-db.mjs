@@ -3,14 +3,15 @@ import errors from '../../common/errors.mjs'
 import * as fetchWrapper from './fetch-wrapper.mjs'
 import uriManager from './uri-manager.mjs'
 
-export default function () {
-    const userUriManager = uriManager('users')
-    const groupUriManager = uriManager('groups')
-    const eventUriManager = uriManager('events')
+export default async function () {
+    const userUriManager = await uriManager('users')
+    const groupUriManager = await uriManager('groups')
+    const eventUriManager = await uriManager('events')
     
     return {
         insertUser,
-        getUserId,
+        getUserByToken,
+        getUserByUsername,
         getAllGroups,
         getGroup,
         createGroup,
@@ -34,22 +35,22 @@ export default function () {
         return user
     }
 
-    // TO DO TO DO TO DO TO DO TO DO TO DO TO DO 
-    async function getUserId(userToken) {
-        const uri = userUriManager.getAll() 
-        const body = {
-            query: {
-                match: { token: userToken }
-            }
-        }
-        const result = await fetchWrapper.post(uri, body)
+    // // TO DO TO DO TO DO TO DO TO DO TO DO TO DO 
+    // async function getUserId(userToken) {
+    //     const uri = userUriManager.getAll() 
+    //     const body = {
+    //         query: {
+    //             match: { token: userToken }
+    //         }
+    //     }
+    //     const result = await fetchWrapper.post(uri, body)
 
-        if (result.hits.total.value === 0) {
-            throw errors.USER_NOT_FOUND()
-        }
+    //     if (result.hits.total.value === 0) {
+    //         throw errors.USER_NOT_FOUND()
+    //     }
 
-        return result.hits.hits[0]._source.id // need to fix this line
-    }
+    //     return result.hits.hits[0]._source.id // need to fix this line
+    // }
 
     async function getAllGroups(userId) {
         const uri = groupUriManager.getAll()
@@ -167,20 +168,22 @@ export default function () {
         return updatedGroup
     }
 
-    // TODO
-    async function getUser(username) {
-        const result = await client.search({
-            index: 'users',
-            body: {
-                _source: ["id"],
-                query: { match: { username: username } }
-            }
-        });
-		console.log('result.body.hits.total.value: ', result.body.hits.total.value); // Debugging line
-        if (result.body.hits.total.value === 0) {
-            return null;
-        }
+    async function getUser(propName, value) {
+        const uri = `${uriManager.getAll()}?q=${propName}:${value}`
+        return get(uri)
+            .then(body => body.hits.hits.map(createUserFromElastic))
+    }
 
-        return result.body.hits.hits[0]._source.id;
+    async function getUserByToken(userToken) {
+        return getUser("token", userToken)
+    } 
+
+    async function getUserByUsername(username) {
+        return getUser("username", username)
+    } 
+
+    function createUserFromElastic(userElastic) {
+        let user = Object.assign({id: userElastic._id}, userElastic._source)
+        return user
     }
 }
