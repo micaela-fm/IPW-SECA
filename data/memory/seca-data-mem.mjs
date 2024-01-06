@@ -3,17 +3,17 @@ import errors from '../../common/errors.mjs'
 
 export let USERS = [
     {
-        id: 1,
+        id: "1",
         name: "Noemi Ferreira",
         token: "3eac1b5d-1386-4ecd-a831-656c75c410f0"
     },
     {
-        id: 2,
+        id: "2",
         name: "Micaela Macatrão",
         token: "036558db-f4a8-4df0-92f0-a02bb83dd473"
     },
     {
-        id: 3,
+        id: "3",
         name: "Tiago Névoa",
         token: "34e4953f-40d0-456c-8fcf-1db2ea51c9f4"
     }
@@ -21,7 +21,7 @@ export let USERS = [
 
 export let GROUPS = [
     {
-        id: 1,
+        id: "1",
         name: "Best events ever",
         description: "user1 These are the best events ever",
         userId: 1,
@@ -39,7 +39,7 @@ export let GROUPS = [
         ]
     }, 
     {
-        id: 2,
+        id: "2",
         name: "Best events ever",
         description: "user2 These are the best events ever",
         userId: 2,
@@ -59,9 +59,9 @@ export let GROUPS = [
     
 ]
 
-let nextUserId = USERS.length >= 1 ? USERS[USERS.length - 1].id + 1 : 1
+let nextUserId = USERS.length >= 1 ? String(Number(USERS[USERS.length - 1].id) + 1) : "1"
 
-let nextGroupId = GROUPS.length >= 1 ? GROUPS[GROUPS.length - 1].id + 1 : 1
+let nextGroupId = GROUPS.length >= 1 ? String(Number(GROUPS[GROUPS.length - 1].id) + 1) : "1"
 
 export default function () {
     return {
