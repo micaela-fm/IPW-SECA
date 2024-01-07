@@ -29,17 +29,22 @@ export default async function () {
         deleteEventFromGroup
     }
 
-    async function insertUser(username) {
-        const user = {
-            name: username,
-            token: crypto.randomUUID()
+    async function insertUser(username, password) {
+        const userExists = getUserByUsername(username)
+        if (!userExists) {
+            const user = {
+                name: username,
+                pwd: password,
+                token: crypto.randomUUID()
+            }
+        
+            const response = await post(userUriManager.create(), user)
+        
+            user.id = response._id
+        
+            return user
         }
-    
-        const response = await post(userUriManager.create(), user)
-    
-        user.id = response._id
-    
-        return user
+        return null
     }
 
     // // TO DO TO DO TO DO TO DO TO DO TO DO TO DO 

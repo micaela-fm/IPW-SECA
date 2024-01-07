@@ -9,9 +9,10 @@ export default function (secaData) {
         getUserId
     }
 
-    async function insertUser(username) {
+    async function insertUser(username, password) {
         if (!username) throw errors.INVALID_ARGUMENT("username")
-        return await secaData.insertUser(username)
+        if (!password) throw errors.INVALID_ARGUMENT("password")
+        return await secaData.insertUser(username, password)
     }
     
     
