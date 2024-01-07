@@ -23,7 +23,8 @@ export default function (secaEventsServices, secaGroupsServices, secaUsersServic
     addEventForm: processRequest(_addEventForm, true),
     addEvent: processRequest(_addEventToGroup, true),
     removeEvent: processRequest(_removeEvent, true),
-    createUser: processRequest(_createUser, false)
+    createUser: processRequest(_createUser, false),
+    validateCredentials
   }
 
   // Get the list of the most popular events
@@ -56,14 +57,14 @@ export default function (secaEventsServices, secaGroupsServices, secaUsersServic
       name: req.body.name,
       description: req.body.description
     }
-    await secaGroupsServices.createGroup(newGroup, req.token)
+    await secaGroupsServices.createGroup(newGroup, req.user.username)
     rsp.redirect('groups')
   }
 
   // Render the form for editing a group
   async function _editGroupForm(req, rsp) {
     const groupId = req.params.id
-    const group = await secaGroupsServices.getGroup(groupId, req.token)
+    const group = await secaGroupsServices.getGroup(groupId, req.user.username)
     rsp.render('editGroupForm', { group })
   }
   
@@ -75,27 +76,27 @@ export default function (secaEventsServices, secaGroupsServices, secaUsersServic
       description: req.body.description
     }
 
-    await secaGroupsServices.editGroup(groupId, newGroup, req.token)
+    await secaGroupsServices.editGroup(groupId, newGroup, req.user.username)
     rsp.redirect('/seca/groups')
   }
 
   // List all groups
   async function _listAllGroups(req, rsp) {
-    const groups = await secaGroupsServices.getAllGroups(req.token)
+    const groups = await secaGroupsServices.getAllGroups(req.user.username)
     rsp.render('listGroups', { groups })
   }
 
   // Delete a group
   async function _deleteGroup(req, rsp) {
     const groupId = req.params.id
-    await secaGroupsServices.deleteGroup(groupId, req.token)
+    await secaGroupsServices.deleteGroup(groupId, req.user.username)
     rsp.redirect('/seca/groups')
   }
 
   // Get the details of a group
   async function _getGroupDetails(req, rsp) {
     const groupId = req.params.id
-    const group = await secaGroupsServices.getGroup(groupId, req.token)
+    const group = await secaGroupsServices.getGroup(groupId, req.user.username)
     rsp.render('groupDetails', { group })
   }
 
@@ -103,7 +104,7 @@ export default function (secaEventsServices, secaGroupsServices, secaUsersServic
   async function _addEventForm(req, rsp) {
     const eventId = req.params.id
     const event = await secaEventsServices.getEventsById(eventId);
-    const groups = await secaGroupsServices.getAllGroups(req.token)
+    const groups = await secaGroupsServices.getAllGroups(req.user.username)
     rsp.render('addEventForm', { event, groups })
   }
 
@@ -111,7 +112,7 @@ export default function (secaEventsServices, secaGroupsServices, secaUsersServic
   async function _addEventToGroup(req, rsp) {
     const groupId = req.body.groupId
     const eventId = req.params.id
-    await secaGroupsServices.addEventToGroup(groupId, eventId, req.token)
+    await secaGroupsServices.addEventToGroup(groupId, eventId, req.user.username)
     rsp.redirect(`/seca/groups/${groupId}`)
   }
 
@@ -119,7 +120,7 @@ export default function (secaEventsServices, secaGroupsServices, secaUsersServic
   async function _removeEvent(req, rsp) {
     const groupId = req.params.id
     const eventId = req.params.eventId
-    const event = await secaGroupsServices.deleteEventFromGroup(groupId, eventId, req.token)
+    const event = await secaGroupsServices.deleteEventFromGroup(groupId, eventId, req.user.username)
     rsp.redirect(`/seca/groups/${groupId}`)
   }
 
@@ -131,16 +132,19 @@ export default function (secaEventsServices, secaGroupsServices, secaUsersServic
     rsp.render('createUser', {user})
   }
 
+  async function validateCredentials(username, password) {
+    return await secaUsersServices.validateCredentials(username, password)
+  }
+
 
   // Auxiliary functions
   function processRequest(requestProcessor, requiresAuthentication) {
     return async function (req, rsp) {
       if (requiresAuthentication) {
-        const token = getToken(req)
-        if (!token) {
+        if (!req.user) {
           return rsp
             .status(401)
-            .json({ error: `Invalid authentication token` })
+            .redirect("/seca/loginForm.html")
         }
       }
       try {
@@ -154,9 +158,9 @@ export default function (secaEventsServices, secaGroupsServices, secaUsersServic
   }
 
   // temp hardcoded version
-  function getToken(req) {
-    return req.token = "3eac1b5d-1386-4ecd-a831-656c75c410f0"
-  }
+  // function getToken(req) {
+  // return req.token = "3eac1b5d-1386-4ecd-a831-656c75c410f0"
+  // }
 
   // function getToken(req) {
   //   const BEARER_STR = "Bearer "

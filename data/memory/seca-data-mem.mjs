@@ -5,17 +5,20 @@ export let USERS = [
     {
         id: "1",
         name: "Noemi Ferreira",
-        token: "3eac1b5d-1386-4ecd-a831-656c75c410f0"
+        token: "3eac1b5d-1386-4ecd-a831-656c75c410f0",
+        pwd: "noob"
     },
     {
         id: "2",
         name: "Micaela Macatrão",
-        token: "036558db-f4a8-4df0-92f0-a02bb83dd473"
+        token: "036558db-f4a8-4df0-92f0-a02bb83dd473",
+        pwd: "1234"
     },
     {
         id: "3",
         name: "Tiago Névoa",
-        token: "34e4953f-40d0-456c-8fcf-1db2ea51c9f4"
+        token: "34e4953f-40d0-456c-8fcf-1db2ea51c9f4",
+        pwd: "ghost"
     }
 ]
 

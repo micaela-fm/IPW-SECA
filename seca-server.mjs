@@ -1,7 +1,11 @@
 // Module that constitutes the entry point to the server application
 
 // Importing external libraries
+import crypto from 'node:crypto'
 import express from "express"
+import morgan from 'morgan'
+import passport from 'passport'
+import expressSession from 'express-session'
 import swaggerUi from "swagger-ui-express"
 import yaml from "yamljs"
 import cors from "cors"
@@ -13,8 +17,6 @@ import url from "url"
 import * as secaEventsServices from "./services/seca-events-services.mjs"
 import initGroupsServices from "./services/seca-groups-services.mjs"
 import initUsersServices from "./services/seca-users-services.mjs"
-//import * as secaGroupsServices from "./services/seca-groups-services.mjs"
-//import * as secaUsersServices from "./services/seca-users-services.mjs"
 import apiInit from "./web/api/seca-web-api.mjs"
 import siteInit from "./web/site/seca-web-site.mjs"
 // import secaDataInit from "./data/memory/seca-data-mem.mjs"
@@ -40,11 +42,24 @@ const site = siteInit(secaEventsServices, secaGroupsServices, secaUsersServices)
 console.log("Starting server set up")
 const app = express()
 
+app.use(expressSession(
+    {
+      secret: "I have no secrets",
+      resave: false,
+      saveUninitialized: false
+    }
+    ))
+
 // Initializing middleware
 app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded( {extended: true }))
 app.use('/seca', express.static('./web/site/static'))
+app.use(passport.session())
+app.use(passport.initialize())
+
+passport.serializeUser(serializeUserDeserializeUser)
+passport.deserializeUser(serializeUserDeserializeUser)
 
 // Documentation
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument))
@@ -55,6 +70,11 @@ const currentFileDir = url.fileURLToPath(new URL('.', import.meta.url))
 const viewsDir = path.join(currentFileDir, 'web', 'site', 'views')
 app.set('view engine', 'hbs')
 app.set('views', viewsDir)
+
+// Authentication Routes
+app.get('/seca/login', login)
+app.post('/seca/login', login)
+app.get('/seca/logout', logout)
 
 // HTTP Site Routes
 app.get("/seca/events", site.searchEvents)
@@ -75,7 +95,6 @@ app.post("/seca/groups/:id/events/:eventId/delete", site.removeEvent)
 
 app.post("/seca/users", site.createUser) // TODO
 
-
 // HTTP API Routes
 app.get("/events", api.searchEvents)
 app.get("/events/popular", api.getPopularEvents)
@@ -94,4 +113,30 @@ app.post("/users", api.createUser)
 app.listen(PORT, () => console.log(`Server listening in http://localhost:${PORT}`))
 console.log("Ending server set up")
 
+
+function serializeUserDeserializeUser (user, done) {
+  done(null, user)
+}
+
+async function login(req, rsp) {
+  let userFound = await site.validateCredentials(req.body.name, req.body.pwd)
+  console.log(userFound)
+  if (userFound) {
+      const user = {
+        username: req.body.name,
+        token: crypto.randomUUID()
+      }
+      return req.login(user, () => rsp.render('login', {user}))
+  }
+  rsp.render('login', null)
+}
+
+async function logout(req, rsp) {
+  req.logout(() => {
+      rsp.render('logout')
+  })
+}
+
 export default app
+
+

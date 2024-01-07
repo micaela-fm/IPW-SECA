@@ -20,6 +20,7 @@ export default async function () {
         insertUser,
         getUserByToken,
         getUserByUsername,
+        validateCredentials,
         getAllGroups,
         getGroup,
         createGroup,
@@ -34,8 +35,8 @@ export default async function () {
         if (!userExists) {
             const user = {
                 name: username,
-                pwd: password,
-                token: crypto.randomUUID()
+                token: crypto.randomUUID(),
+                pwd: password
             }
         
             const response = await post(userUriManager.create(), user)
@@ -45,6 +46,27 @@ export default async function () {
             return user
         }
         return null
+    }
+
+    async function getUserByToken(userToken) {
+        return getUser("token", userToken)
+    } 
+
+    async function getUserByUsername(username) {
+        return getUser("name", username)
+    } 
+
+    async function getUser(propName, value) {
+        const uri = `${userUriManager.getAll()}?q=${propName}:${value}`
+        return await get(uri)
+            .then(body => body.hits.hits.map(createUserFromElastic))
+    }
+
+    async function validateCredentials(username, password) {
+        const user = await getUserByUsername(username)
+        console.log(user)
+        console.log(password)
+        return user[0].pwd == password
     }
 
     // // TO DO TO DO TO DO TO DO TO DO TO DO TO DO 
@@ -165,28 +187,15 @@ export default async function () {
         console.log(`Event with ID ${eventId} deleted from group with ID ${groupId} successfully.`)
         return updatedGroup
     }
-
-    async function getUser(propName, value) {
-        const uri = `${userUriManager.getAll()}?q=${propName}:${value}`
-        return await get(uri)
-            .then(body => body.hits.hits.map(createUserFromElastic))
-    }
-
-    async function getUserByToken(userToken) {
-        return getUser("token", userToken)
-    } 
-
-    async function getUserByUsername(username) {
-        return getUser("name", username)
-    } 
-
-    function createUserFromElastic(userElastic) {
-        let user = Object.assign({id: userElastic._id}, userElastic._source)
-        return user
-    }
-
-    function createGroupFromElastic(groupElastic) {
-        let group = Object.assign({id: groupElastic._id}, groupElastic._source)
-        return group
-    }
 }
+
+function createUserFromElastic(userElastic) {
+    let user = Object.assign({id: userElastic._id}, userElastic._source)
+    return user
+}
+
+function createGroupFromElastic(groupElastic) {
+    let group = Object.assign({id: groupElastic._id}, groupElastic._source)
+    return group
+}
+

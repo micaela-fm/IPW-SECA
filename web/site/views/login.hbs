@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Login</title>
+    </head>
+    <body>
+        <h1>Login</h1>
+        {{#if user}}
+        <p>Congratulations, {{user.username}}, you are logged in!</p>
+        <button onclick="location.href='/seca/logout'">Logout</button>
+        {{else}}
+        <p>Invalid credentials.</p>
+        <button onclick="location.href='/seca/loginForm.html'">Back</button>
+        {{/if}}
+        <p><button onclick="location.href='/seca/home.html'">Homepage</button></p></p>
+    </body>
+</html>

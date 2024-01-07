@@ -6,7 +6,8 @@ export default function (secaData) {
 
     return {
         insertUser,
-        getUserId
+        getUserId, 
+        validateCredentials
     }
 
     async function insertUser(username, password) {
@@ -16,11 +17,17 @@ export default function (secaData) {
     }
     
     
-    async function getUserId(userToken) {
-        if (!userToken) throw errors.INVALID_ARGUMENT("token")
-        const user = await secaData.getUserByToken(userToken)
+    async function getUserId(username) {
+        if (!username) throw errors.INVALID_ARGUMENT("username")
+        const user = await secaData.getUserByUsername(username)
         // console.log(user[0].id)
         return user[0].id
+    }
+
+    async function validateCredentials(username, password) {
+        if (!username) throw errors.INVALID_ARGUMENT("username")
+        if (!password) throw errors.INVALID_ARGUMENT("password")
+        return await secaData.validateCredentials(username, password)
     }
 }
 
