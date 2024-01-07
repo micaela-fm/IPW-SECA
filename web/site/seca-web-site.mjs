@@ -156,21 +156,6 @@ export default function (secaEventsServices, secaGroupsServices, secaUsersServic
       }
     }
   }
-
-  // temp hardcoded version
-  // function getToken(req) {
-  // return req.token = "3eac1b5d-1386-4ecd-a831-656c75c410f0"
-  // }
-
-  // function getToken(req) {
-  //   const BEARER_STR = "Bearer "
-  //   const tokenHeader = req.get("Authorization")
-  //   if (!(tokenHeader && tokenHeader.startsWith(BEARER_STR) && tokenHeader.length > BEARER_STR.length)) {
-  //     return null
-  //   }
-  //   req.token = tokenHeader.split(" ")[1]
-  //   return req.token
-  // }
 }
 
 

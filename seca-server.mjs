@@ -19,16 +19,11 @@ import initGroupsServices from "./services/seca-groups-services.mjs"
 import initUsersServices from "./services/seca-users-services.mjs"
 import apiInit from "./web/api/seca-web-api.mjs"
 import siteInit from "./web/site/seca-web-site.mjs"
-// import secaDataInit from "./data/memory/seca-data-mem.mjs"
 import secaDataInit from "./data/elasticsearch/seca-data-db.mjs"
 
 // Reading content from yaml doc
 const swaggerDocument = yaml.load("./seca-api.yaml")
 
-// TODO: Reading port number from .env file
-// import dotenv from 'dotenv'
-// dotenv.config({ path: './.env' })
-// const PORT = process.env.PORT
 const PORT = 3000
 
 // Initializing secaServices, api and site
@@ -120,7 +115,6 @@ function serializeUserDeserializeUser (user, done) {
 
 async function login(req, rsp) {
   let userFound = await site.validateCredentials(req.body.name, req.body.pwd)
-  console.log(userFound)
   if (userFound) {
       const user = {
         username: req.body.name,

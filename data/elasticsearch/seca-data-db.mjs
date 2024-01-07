@@ -7,7 +7,6 @@ import uriManager from './uri-manager.mjs'
 export default async function () {
     const userUriManager = await uriManager('users')
     const groupUriManager = await uriManager('groups')
-    //const eventUriManager = await uriManager('events')
 
     // Put some default data into ES upon app init
     await put(userUriManager.update(USERS[0].id), USERS[0])
@@ -64,27 +63,8 @@ export default async function () {
 
     async function validateCredentials(username, password) {
         const user = await getUserByUsername(username)
-        console.log(user)
-        console.log(password)
         return user[0].pwd == password
     }
-
-    // // TO DO TO DO TO DO TO DO TO DO TO DO TO DO 
-    // async function getUserId(userToken) {
-    //     const uri = userUriManager.getAll() 
-    //     const body = {
-    //         query: {
-    //             match: { token: userToken }
-    //         }
-    //     }
-    //     const result = await post(uri, body)
-
-    //     if (result.hits.total.value === 0) {
-    //         throw errors.USER_NOT_FOUND()
-    //     }
-
-    //     return result.hits.hits[0]._source.id // need to fix this line
-    // }
 
     async function getAllGroups(userId) {
         const query = {

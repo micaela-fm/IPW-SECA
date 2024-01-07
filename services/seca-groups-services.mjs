@@ -1,6 +1,4 @@
-// import * as usersServices from './seca-users-services.mjs'
 import * as tmData from '../data/tm-events-data.mjs'
-// import * as secaData from '../data/seca-data-mem.mjs'
 import errors from '../common/errors.mjs'
 
 export default function (usersServices, secaData) {

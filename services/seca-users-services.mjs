@@ -1,4 +1,3 @@
-// import * as secaData from '../data/seca-data-mem.mjs'
 import errors from '../common/errors.mjs'
 
 export default function (secaData) {
@@ -20,7 +19,6 @@ export default function (secaData) {
     async function getUserId(username) {
         if (!username) throw errors.INVALID_ARGUMENT("username")
         const user = await secaData.getUserByUsername(username)
-        // console.log(user[0].id)
         return user[0].id
     }
 
