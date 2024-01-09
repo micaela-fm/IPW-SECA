@@ -30,8 +30,8 @@ export default async function () {
     }
 
     async function insertUser(username, password) {
-        const userExists = await getUserByUsername(username).length > 0
-        if (!userExists) {
+        const userExists = await getUserByUsername(username)
+        if (!userExists[0]) {
             const user = {
                 name: username,
                 token: crypto.randomUUID(),
@@ -39,20 +39,27 @@ export default async function () {
             }
         
             const response = await post(userUriManager.create(), user)
+
+            const updatedUser = {
+                id: await response._id,
+                name: user.name,
+                token: user.token,
+                pwd: user.pwd
+            }
+
+            await put(userUriManager.update(response._id), updatedUser)
         
-            user.id = response._id
-        
-            return user
+            return updatedUser
         }
         return null
     }
 
     async function getUserByToken(userToken) {
-        return getUser("token", userToken)
+        return await getUser("token", userToken)
     } 
 
     async function getUserByUsername(username) {
-        return getUser("name", username)
+        return await getUser("name", username)
     } 
 
     async function getUser(propName, value) {
@@ -67,13 +74,9 @@ export default async function () {
     }
 
     async function getAllGroups(userId) {
-        const query = {
-            query: {
-                match: { "userId": userId }
-            }
-        }
-        return await post(groupUriManager.getAll(), query)
-            .then(body => body.hits.hits.map(createGroupFromElastic))
+        const response = await get(groupUriManager.getAll())
+        const filtered = response.hits.hits.filter(it => it._source.userId == userId);
+        return filtered.map(createGroupFromElastic)
     }
 
     async function getGroup(groupId) {
@@ -97,8 +100,17 @@ export default async function () {
             events: []
         }
         const response = await post(groupUriManager.create(), group)
-        group.id = response._id
-        return group
+        
+        const updatedGroup = {
+            id: await response._id,
+            name: group.name,
+            description: group.description,
+            userId: group.userId,
+            events: group.events
+        }
+
+        await put(groupUriManager.update(response._id), updatedGroup)
+        return updatedGroup
     }
 
     async function editGroup(group) {

@@ -58,8 +58,7 @@ export let GROUPS = [
                 }
             }
         ]
-    },
-    
+    }
 ]
 
 let nextUserId = USERS.length >= 1 ? String(Number(USERS[USERS.length - 1].id) + 1) : "1"

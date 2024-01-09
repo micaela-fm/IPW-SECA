@@ -19,7 +19,7 @@ export default function (usersServices, secaData) {
         if (!username) throw errors.INVALID_ARGUMENT("username")
         const userId = await usersServices.getUserId(username)
         if (!userId) throw errors.USER_NOT_FOUND()
-        return secaData.getAllGroups(userId)
+        return await secaData.getAllGroups(userId)
     }
     
     async function getGroup(groupId, username) {
@@ -34,7 +34,7 @@ export default function (usersServices, secaData) {
         const userId = await usersServices.getUserId(username)
         if (!userId) throw errors.USER_NOT_FOUND()
         newGroup.userId = userId
-        return secaData.createGroup(newGroup)
+        return await secaData.createGroup(newGroup)
     }
     
     async function editGroup(groupId, newGroup, username) {
@@ -45,7 +45,7 @@ export default function (usersServices, secaData) {
         if (!group) throw errors.NOT_FOUND("Group")
         group.name = newGroup.name
         group.description = newGroup.description
-        return secaData.editGroup(group)
+        return await secaData.editGroup(group)
     }
     
     async function deleteGroup(groupId, username) {
@@ -53,7 +53,7 @@ export default function (usersServices, secaData) {
         if (!userId) throw errors.USER_NOT_FOUND()
         const group = await _getGroup(groupId, userId) 
         if (!group) throw errors.NOT_FOUND("Group")
-        return secaData.deleteGroup(groupId)
+        return await secaData.deleteGroup(groupId)
     }
     
     async function addEventToGroup(groupId, eventId, username) {
@@ -63,7 +63,7 @@ export default function (usersServices, secaData) {
         if (!group) throw errors.NOT_FOUND("Group")
         const event = await tmData.getEventById(eventId)
         if (!event) throw errors.NOT_FOUND("Event")
-        return secaData.addEventToGroup(groupId, event)
+        return await secaData.addEventToGroup(groupId, event)
     }
     
     async function deleteEventFromGroup(groupId, eventId, username) {
@@ -71,7 +71,7 @@ export default function (usersServices, secaData) {
         if (!userId) throw errors.USER_NOT_FOUND()
         const group = await _getGroup(groupId, userId)
         if (!group) throw errors.NOT_FOUND("Group")
-        return secaData.deleteEventFromGroup(groupId, eventId)
+        return await secaData.deleteEventFromGroup(groupId, eventId)
     }
     
     async function _getGroup(groupId, userId) {
