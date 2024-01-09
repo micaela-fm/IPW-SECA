@@ -27,7 +27,7 @@ export let GROUPS = [
         id: "1",
         name: "Best events ever",
         description: "user1 These are the best events ever",
-        userId: 1,
+        userId: "1",
         events: [
             {
                 "id": "G5v0Z9YcKe8Bi",
@@ -45,7 +45,7 @@ export let GROUPS = [
         id: "2",
         name: "Best events ever",
         description: "user2 These are the best events ever",
-        userId: 2,
+        userId: "2",
         events: [
             {
                 "id": "G5v0Z9YcKe8Bi",

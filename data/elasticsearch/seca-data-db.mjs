@@ -33,6 +33,7 @@ export default async function () {
         const userExists = await getUserByUsername(username)
         if (!userExists[0]) {
             const user = {
+                id: crypto.randomUUID(),
                 name: username,
                 token: crypto.randomUUID(),
                 pwd: password
@@ -75,8 +76,8 @@ export default async function () {
 
     async function getAllGroups(userId) {
         const response = await get(groupUriManager.getAll())
-        const filtered = response.hits.hits.filter(it => it._source.userId == userId);
-        return filtered.map(createGroupFromElastic)
+        const filtered = await response.hits.hits.filter(it => it._source.userId == userId);
+        return await filtered.map(createGroupFromElastic)
     }
 
     async function getGroup(groupId) {
@@ -94,9 +95,10 @@ export default async function () {
 
     async function createGroup(newGroup) {
         const group = {
+            id: crypto.randomUUID(),
             name: newGroup.name, 
             description: newGroup.description, 
-            userId: newGroup.userId, 
+            userId: String(newGroup.userId), 
             events: []
         }
         const response = await post(groupUriManager.create(), group)
