@@ -30,7 +30,7 @@ export default async function () {
     }
 
     async function insertUser(username, password) {
-        const userExists = getUserByUsername(username)
+        const userExists = await getUserByUsername(username).length > 0
         if (!userExists) {
             const user = {
                 name: username,
